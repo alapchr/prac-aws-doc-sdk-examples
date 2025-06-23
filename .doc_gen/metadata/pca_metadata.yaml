@@ -3,6 +3,7 @@ pca_Hello:
   title_abbrev: Hello World
   synopsis: get started using &PCA;.
   category: Hello
+  services: []
   languages:
     Java:
       versions:
