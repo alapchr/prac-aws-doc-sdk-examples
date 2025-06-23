@@ -2,6 +2,7 @@ pca_Hello:
   title: Hello World for &PCA;
   title_abbrev: Hello World
   synopsis: get started using &PCA;.
+  services: {}
   languages:
     Java:
       versions:
