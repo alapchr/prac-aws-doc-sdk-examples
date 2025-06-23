@@ -1,0 +1,16 @@
+pca_Hello:
+  title: Hello World for &PCA;
+  title_abbrev: Hello World
+  synopsis: get started using &PCA;.
+  category: Hello
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/pca/src/main/java/com/example/pca/HelloWorld.java
+          excerpts:
+            - description: 
+              snippet_tags:
+                - pca.java2.hello.main
+services:
+  pca: {}
