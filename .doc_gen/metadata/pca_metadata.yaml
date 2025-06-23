@@ -7,10 +7,9 @@ pca_Hello:
     Java:
       versions:
         - sdk_version: 2
-          github: javav2/example_code/pca/src/main/java/com/example/pca/HelloWorld.java
+          github: javav2/example_code/pca
           excerpts:
             - description: 
               snippet_tags:
                 - pca.java2.hello.main
-services:
-  pca: {}
+services: {}
