@@ -16,7 +16,6 @@ acmpca_Hello:
 
 
 acmpca_CreateCA:
-  category: 
   languages:
     Java:
       versions:
@@ -26,6 +25,6 @@ acmpca_CreateCA:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.CreateCA.main
+                - acmpca.java2.CreateCertificateAuthority.main
   services:
     acmpca: {CreateCertificateAuthority}
