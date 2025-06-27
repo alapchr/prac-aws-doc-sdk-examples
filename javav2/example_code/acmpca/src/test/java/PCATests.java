@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.*;
+import software.amazon.awssdk.services.acmpca.model.InvalidPolicyException;
+import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
+
     
 
 public class PCATests {
@@ -72,6 +75,27 @@ public class PCATests {
             client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
         });
 
+    }
+
+
+    @Test
+    void testCreateCA_InvalidPolicyException() {
+        when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
+            .thenThrow(InvalidPolicyException.builder().message("Invalid policy").build());
+
+        assertThrows(InvalidPolicyException.class, () -> {
+            client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+        });
+    }
+
+    @Test
+    void testCreateCA_LimitExceededException() {
+        when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
+            .thenThrow(LimitExceededException.builder().message("Limit exceeded").build());
+
+        assertThrows(LimitExceededException.class, () -> {
+            client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+        });
     }
 }
 
