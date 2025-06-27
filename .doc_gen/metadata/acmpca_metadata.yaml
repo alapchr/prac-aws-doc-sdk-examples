@@ -1,20 +1,3 @@
-acmpca_Hello:
-  title: Hello World for &PCA;
-  title_abbrev: Hello World
-  synopsis: get started using &PCA;.
-  category: Basics
-  services: {}
-  languages:
-    Java:
-      versions:
-        - sdk_version: 2
-          github: javav2/example_code/acmpca
-          excerpts:
-            - description: 
-              snippet_tags:
-                - acmpca.java2.hello.main 
-
-
 acmpca_CreateCA:
   languages:
     Java:
@@ -27,4 +10,4 @@ acmpca_CreateCA:
               snippet_tags:
                 - acmpca.java2.CreateCertificateAuthority.main
   services:
-    acmpca: {CreateCertificateAuthority}
+     pca: {CreateCertificateAuthority}
