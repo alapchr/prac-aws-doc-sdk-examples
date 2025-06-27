@@ -8,11 +8,11 @@ acmpca_Hello:
     Java:
       versions:
         - sdk_version: 2
-          github: javav2/example_code/pca
+          github: javav2/example_code/acmpca
           excerpts:
             - description: 
               snippet_tags:
-                - pca.java2.hello.main
+                - acmpca.java2.hello.main 
 
 
 acmpca_CreateCA:
@@ -21,11 +21,11 @@ acmpca_CreateCA:
     Java:
       versions:
         - sdk_version: 2
-          github: javav2/example_code/pca
+          github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
             - description:
               snippet_tags:
-                - pca.java2.CreateCA.main
+                - acmpca.java2.CreateCA.main
   services:
     acmpca: {CreateCertificateAuthority}
