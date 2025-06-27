@@ -1,4 +1,5 @@
-acmpca_CreateCA:
+# zexi 0.4.0
+acm-pca_CreateCA:
   languages:
     Java:
       versions:
@@ -10,4 +11,4 @@ acmpca_CreateCA:
               snippet_tags:
                 - acmpca.java2.CreateCertificateAuthority.main
   services:
-     pca: {CreateCertificateAuthority}
+     acm-pca: {CreateCertificateAuthority}
