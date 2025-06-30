@@ -1,6 +1,8 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+// snippet-start:[acmpca.java2.CreateCertificateAuthority.main] 
+
 package com.example.acmpca;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import software.amazon.awssdk.services.acmpca.model.RevocationConfiguration;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 
-// snippet-start:[acmpca.java2.CreateCertificateAuthority.main]
+
 
 /**
  * Before running this Java V2 code example, set up your development
@@ -35,9 +37,27 @@ public class CreateCertificateAuthority {
 
    
     public static void main(String[] args) throws Exception {
+
+        final String usage = """
+
+            Usage: <region> <s3BucketName>
+            
+            Where: 
+                region - the AWS region (e.g., us-east-1)
+                s3BucketName - the name of your bucket for CRL revocation
+            """;
+
+        if (args.length != 2) {
+            System.out.println(usage);
+            return;
+        }
+               
+        String regionName = args[0];
+        String s3BucketName = args[1];
+
        
         // Define the region for your sample.
-        Region region = Region.US_EAST_1;  // Change to your region.
+        Region region = Region.of(regionName);  // Change to your region.
         
         // Create a client that you can use to make requests.
         AcmPcaClient client = AcmPcaClient.builder()
@@ -70,13 +90,13 @@ public class CreateCertificateAuthority {
             .enabled(true)
             .expirationInDays(365)
             .customCname(null)
-            .s3BucketName("your-bucket-name")
+            .s3BucketName(s3BucketName)
             .build();
        
          RevocationConfiguration revokeConfig = RevocationConfiguration.builder()
             .crlConfiguration(crlConfigure)
             .build(); 
-
+ 
         // Define a certificate authority type: ROOT or SUBORDINATE
         CertificateAuthorityType CAtype = CertificateAuthorityType.ROOT;
       
@@ -121,6 +141,5 @@ public class CreateCertificateAuthority {
         System.out.println(arn);
     }
 }
-
 
 // snippet-end:[acmpca.java2.CreateCertificateAuthority.main] 
