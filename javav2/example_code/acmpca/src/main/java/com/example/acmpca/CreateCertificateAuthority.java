@@ -1,7 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-// snippet-start:[acmpca.java2.CreateCertificateAuthority.main] 
 
 package com.example.acmpca;
 
@@ -22,7 +21,7 @@ import software.amazon.awssdk.services.acmpca.model.RevocationConfiguration;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 
-
+// snippet-start:[acmpca.java2.CreateCertificateAuthority.main] 
 
 /**
  * Before running this Java V2 code example, set up your development
