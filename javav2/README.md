@@ -4,7 +4,7 @@ To build and run these AWS SDK for Java (v2) code examples, you need the followi
 
 - [Apache Maven](https://maven.apache.org/) (>3.0)
 - [AWS SDK for Java](https://aws.amazon.com/sdk-for-java/) (downloaded and extracted somewhere on
-  your machine)
+  your machine) 
 - **All Java (v2) examples assume that you have set up your credentials in the credentials file in the .aws folder**. For information about how to set AWS credentials and the AWS Region, see [Set up AWS credentials and Region for development](http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/setup-credentials.html) in the _AWS SDK for Java Developer Guide_. You should also set the _AWS Region_ within which the operations will be performed. If a Region is not set, the default Region used is **us-east-1**.
 
   After you set your AWS credentials in the credentials file located in the .aws folder, you can create a service client like this.

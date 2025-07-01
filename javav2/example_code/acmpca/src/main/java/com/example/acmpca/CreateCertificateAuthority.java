@@ -58,7 +58,7 @@ public class CreateCertificateAuthority {
         // Define the region for your sample.
         Region region = Region.of(regionName);  // Change to your region.
         
-        // Create a client that you can use to make requests.
+        // Create a client that you can use to make1 requests.
         AcmPcaClient client = AcmPcaClient.builder()
             .region(region)
             .build();

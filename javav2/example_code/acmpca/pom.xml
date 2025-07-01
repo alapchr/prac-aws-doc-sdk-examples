@@ -55,7 +55,7 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- AWS SDK v1 dependencies for migration -->
+    <!-- AWS SDK v2 dependencies -->
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>acmpca</artifactId>
