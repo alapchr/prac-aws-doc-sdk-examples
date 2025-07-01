@@ -1,4 +1,5 @@
-acm-pca_CreateCA:
+# zexi 0.4.0
+acm-pca_CreateCertificateAuthority:
   languages:
     Java:
       versions:
