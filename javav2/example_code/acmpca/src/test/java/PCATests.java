@@ -22,7 +22,7 @@ public class PCATests {
     @Mock
     private AcmPcaClient client;
 
-    //sets up all mock objects to ensure that they are ready to use
+    // Sets up all mock objects to ensure that they are ready to use
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -31,7 +31,7 @@ public class PCATests {
     @Test
      void testCreateCA (){
         
-        //fake arn expected 
+        // Fake arn expected 
         String expectedArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca-id"; 
 
         CreateCertificateAuthorityResponse mockResponse = CreateCertificateAuthorityResponse.builder()

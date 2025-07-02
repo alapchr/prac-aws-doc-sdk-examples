@@ -22,7 +22,6 @@ import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 
 // snippet-start:[acmpca.java2.CreateCertificateAuthority.main] 
-
 /**
  * Before running this Java V2 code example, set up your development
  * environment, including your credentials.
@@ -101,7 +100,7 @@ public class CreateCertificateAuthority {
       
         // Create a tag - method 1
         /*
-         * Replace the parameter for key and value with your appropritate information 
+         * Replace the parameter for key and value with your appropriate information 
          */
         Tag tag1 = Tag.builder()
             .key("PrivateCA") 
