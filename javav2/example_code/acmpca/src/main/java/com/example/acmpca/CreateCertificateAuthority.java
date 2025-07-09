@@ -5,7 +5,6 @@ package com.example.acmpca;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.ASN1Subject;
@@ -14,125 +13,119 @@ import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityType;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.CrlConfiguration;
-
 import software.amazon.awssdk.services.acmpca.model.KeyAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.RevocationConfiguration;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 
-// snippet-start:[acmpca.java2.CreateCertificateAuthority.main] 
+// snippet-start:[acmpca.java2.CreateCertificateAuthority.main]
 /**
- * Before running this Java V2 code example, set up your development
- * environment, including your credentials.
- * <p>
- * For more information, see the following documentation topic:
- * <p>
- * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
+ * Before running this Java V2 code example, set up your development environment, including your
+ * credentials.
+ *
+ * <p>For more information, see the following documentation topic:
+ *
+ * <p>https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
-
 public class CreateCertificateAuthority {
-    
-    public static void main(String[] args) throws Exception {
 
-        final String usage = """
+  public static void main(String[] args) throws Exception {
+
+    final String usage =
+        """
 
             Usage: <region> <s3BucketName>
-            
-            Where: 
+
+            Where:
                 region - The AWS region (e.g., us-east-1).
                 s3BucketName - The name of your bucket for CRL revocation.
             """;
 
-        if (args.length != 2) {
-            System.out.println(usage);
-            return;
-        }
-               
-        String regionName = args[0];
-        String s3BucketName = args[1];
+    if (args.length != 2) {
+      System.out.println(usage);
+      return;
+    }
 
-        // Define the region for your sample.
-        Region region = Region.of(regionName); 
-        
-        // Create a client that you can use to make requests.
-        AcmPcaClient client = AcmPcaClient.builder()
-            .region(region)
-            .build();
-    
-        // Define a CA subject.
-        /*
-         * Replace organization, organizationalUnit, country, state, locality, and commonName 
-         * to the appropriate information for you
-         */
-        ASN1Subject subject = ASN1Subject.builder()
-            .organization("Example Organization") 
+    String regionName = args[0];
+    String s3BucketName = args[1];
+
+    // Define the region for your sample.
+    Region region = Region.of(regionName);
+
+    // Create a client that you can use to make requests.
+    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+
+    // Define a CA subject.
+    /*
+     * Replace organization, organizationalUnit, country, state, locality, and commonName
+     * to the appropriate information for you.
+     */
+    ASN1Subject subject =
+        ASN1Subject.builder()
+            .organization("Example Organization")
             .organizationalUnit("Example")
-            .country("US") 
-            .state("Virginia") 
-            .locality("Arlington") 
-            .commonName("www.example.com") 
+            .country("US")
+            .state("Virginia")
+            .locality("Arlington")
+            .commonName("www.example.com")
             .build();
 
-        // Define the CA configuration.
-        CertificateAuthorityConfiguration configCA = CertificateAuthorityConfiguration.builder()
+    // Define the CA configuration.
+    CertificateAuthorityConfiguration configCA =
+        CertificateAuthorityConfiguration.builder()
             .keyAlgorithm(KeyAlgorithm.RSA_2048)
             .signingAlgorithm(SigningAlgorithm.SHA256_WITHRSA)
             .subject(subject)
             .build();
 
-      // Define a certificate revocation list configuration 
-         CrlConfiguration crlConfigure = CrlConfiguration.builder()
+    // Define a certificate revocation list configuration.
+    CrlConfiguration crlConfigure =
+        CrlConfiguration.builder()
             .enabled(true)
             .expirationInDays(365)
             .customCname(null)
             .s3BucketName(s3BucketName)
             .build();
-       
-         RevocationConfiguration revokeConfig = RevocationConfiguration.builder()
-            .crlConfiguration(crlConfigure)
-            .build(); 
- 
-        // Define a certificate authority type: ROOT or SUBORDINATE
-        CertificateAuthorityType CAtype = CertificateAuthorityType.ROOT;
-      
-        // Create a tag - method 1
-        /*
-         * Replace the parameter for key and value with your appropriate information 
-         */
-        Tag tag1 = Tag.builder()
-            .key("PrivateCA") 
-            .value("Sample") 
-            .build();
-      
-        // Create a tag - method 2
-        /*
-         *  Replace the parameter for key and value with your appropriate information 
-        */
-        Tag tag2 = Tag.builder()
-            .key("Purpose") 
-            .value("WebServices") 
-            .build();
-      
-        // Add the tags to a collection.
-        List<Tag> tags = new ArrayList<>();      
-        tags.add(tag1);
-        tags.add(tag2);
-      
-        // Create the request object.
-        CreateCertificateAuthorityRequest req = CreateCertificateAuthorityRequest.builder()
+
+    RevocationConfiguration revokeConfig =
+        RevocationConfiguration.builder().crlConfiguration(crlConfigure).build();
+
+    // Define a certificate authority type: ROOT or SUBORDINATE.
+    CertificateAuthorityType CAtype = CertificateAuthorityType.ROOT;
+
+    // Create a tag - method 1
+    /*
+     * Replace the parameter for key and value with your appropriate information
+     */
+    Tag tag1 = Tag.builder().key("PrivateCA").value("Sample").build();
+
+    // Create a tag - method 2
+    /*
+     *  Replace the parameter for key and value with your appropriate information
+     */
+    Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
+
+    // Add the tags to a collection.
+    List<Tag> tags = new ArrayList<>();
+    tags.add(tag1);
+    tags.add(tag2);
+
+    // Create the request object.
+    CreateCertificateAuthorityRequest req =
+        CreateCertificateAuthorityRequest.builder()
             .certificateAuthorityConfiguration(configCA)
-            .revocationConfiguration(revokeConfig) 
+            .revocationConfiguration(revokeConfig)
             .idempotencyToken("123987")
             .certificateAuthorityType(CAtype)
             .tags(tags)
             .build();
-     
-        // Create the private CA.
-        CreateCertificateAuthorityResponse result = client.createCertificateAuthority(req);
 
-        // Retrieve the ARN of the private CA.
-        String arn = result.certificateAuthorityArn();
-        System.out.println(arn);
-    }
+    // Create the private CA.
+    CreateCertificateAuthorityResponse result = client.createCertificateAuthority(req);
+
+    // Retrieve the ARN of the private CA.
+    String arn = result.certificateAuthorityArn();
+    System.out.println(arn);
+  }
 }
-// snippet-end:[acmpca.java2.CreateCertificateAuthority.main] 
+// snippet-end:[acmpca.java2.CreateCertificateAuthority.main]
