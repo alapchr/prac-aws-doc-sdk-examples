@@ -32,20 +32,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
       </plugin>
-          <!--Autoformatting. Removed before committing-->
-      <plugin>
-      <groupId>com.diffplug.spotless</groupId>
-      <artifactId>spotless-maven-plugin</artifactId>
-      <version>2.43.0</version>
-      <configuration>
-          <java>
-              <googleJavaFormat/>
-          </java>
-      </configuration>
-     </plugin>
     </plugins>
-
-   
   </build>
 
   <dependencyManagement>
@@ -78,16 +65,6 @@
       <artifactId>aws-core</artifactId>
     </dependency>
     
-    <!-- Temporary AWS SDK v1 dependencies for migration
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>acmpca</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>aws-core</artifactId>
-    </dependency>
-     -->
     <!-- Logging dependencies -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
