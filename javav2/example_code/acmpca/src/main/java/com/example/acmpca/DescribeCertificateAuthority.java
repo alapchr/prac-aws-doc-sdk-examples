@@ -20,7 +20,9 @@ import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthority
  */
 
 public class DescribeCertificateAuthority {
+   
    public static void main(String[] args) throws Exception {
+
          final String usage = """
                Usage: <region> <certArn> 
 

@@ -31,6 +31,7 @@ import software.amazon.awssdk.services.acmpca.model.Tag;
  */
 
 public class CreateCertificateAuthority {
+    
     public static void main(String[] args) throws Exception {
 
         final String usage = """
