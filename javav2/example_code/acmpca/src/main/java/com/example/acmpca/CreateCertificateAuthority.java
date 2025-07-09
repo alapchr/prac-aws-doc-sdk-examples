@@ -1,7 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-
 package com.example.acmpca;
 
 import java.util.ArrayList;
@@ -32,8 +31,6 @@ import software.amazon.awssdk.services.acmpca.model.Tag;
  */
 
 public class CreateCertificateAuthority {
-
-   
     public static void main(String[] args) throws Exception {
 
         final String usage = """
@@ -41,8 +38,8 @@ public class CreateCertificateAuthority {
             Usage: <region> <s3BucketName>
             
             Where: 
-                region - the AWS region (e.g., us-east-1)
-                s3BucketName - the name of your bucket for CRL revocation
+                region - The AWS region (e.g., us-east-1).
+                s3BucketName - The name of your bucket for CRL revocation.
             """;
 
         if (args.length != 2) {
@@ -53,11 +50,10 @@ public class CreateCertificateAuthority {
         String regionName = args[0];
         String s3BucketName = args[1];
 
-       
         // Define the region for your sample.
-        Region region = Region.of(regionName);  // Change to your region.
+        Region region = Region.of(regionName); 
         
-        // Create a client that you can use to make1 requests.
+        // Create a client that you can use to make requests.
         AcmPcaClient client = AcmPcaClient.builder()
             .region(region)
             .build();
@@ -133,11 +129,9 @@ public class CreateCertificateAuthority {
         // Create the private CA.
         CreateCertificateAuthorityResponse result = client.createCertificateAuthority(req);
 
-
         // Retrieve the ARN of the private CA.
         String arn = result.certificateAuthorityArn();
         System.out.println(arn);
     }
 }
-
 // snippet-end:[acmpca.java2.CreateCertificateAuthority.main] 
