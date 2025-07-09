@@ -19,6 +19,7 @@ import software.amazon.awssdk.services.acmpca.model.ListCertificateAuthoritiesRe
  * <p>
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
+
 public class ListCertificateAuthorities {
 
    public static void main(String[] args) throws Exception {
