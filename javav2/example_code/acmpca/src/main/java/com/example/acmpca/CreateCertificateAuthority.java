@@ -58,7 +58,7 @@ public class CreateCertificateAuthority {
     // Define a CA subject.
     /*
      * Replace organization, organizationalUnit, country, state, locality, and commonName
-     * to the appropriate information for you
+     * to the appropriate information for you.
      */
     ASN1Subject subject =
         ASN1Subject.builder()
