@@ -52,19 +52,19 @@ public class GetCertificateAuthorityCertificate {
         GetCertificateAuthorityCertificateRequest.builder().certificateAuthorityArn(caArn).build();
 
     // Create a result object.
-      try {
-          GetCertificateAuthorityCertificateResponse result =
-         client.getCertificateAuthorityCertificate(req);
-         
-          // Retrieve and display the certificate information.
-          String strPcaCert = result.certificate();
-          System.out.println(strPcaCert);
-          String strPCACChain = result.certificateChain();
-          System.out.println(strPCACChain);
+    try {
+      GetCertificateAuthorityCertificateResponse result =
+          client.getCertificateAuthorityCertificate(req);
 
-      } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException e) {
-         throw e;
-      } 
+      // Retrieve and display the certificate information.
+      String strPcaCert = result.certificate();
+      System.out.println(strPcaCert);
+      String strPCACChain = result.certificateChain();
+      System.out.println(strPCACChain);
+
+    } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException e) {
+      throw e;
+    }
   }
 }
 // snippet-end:[acmpca.java2.GetCertificateAuthorityCertificate.main]

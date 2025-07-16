@@ -9,9 +9,8 @@ import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthority;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityResponse;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-
+import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 
 // snippet-start:[acmpca.java2.DescribeCertificateAuthority.main]
 /**
@@ -52,9 +51,9 @@ public class DescribeCertificateAuthority {
             .build();
 
     try {
-      
+
       DescribeCertificateAuthorityResponse result = client.describeCertificateAuthority(req);
-      
+
       // Retrieve and display information about the CA.
       CertificateAuthority PCA = result.certificateAuthority();
       String strPCA = PCA.toString();
@@ -62,7 +61,7 @@ public class DescribeCertificateAuthority {
 
     } catch (InvalidArnException | ResourceNotFoundException e) {
       throw e;
-    } catch (AcmPcaException e){
+    } catch (AcmPcaException e) {
       System.out.println(e.getMessage());
     }
   }

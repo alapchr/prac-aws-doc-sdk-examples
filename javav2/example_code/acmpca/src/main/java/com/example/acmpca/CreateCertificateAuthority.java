@@ -13,7 +13,10 @@ import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityType;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.CrlConfiguration;
+import software.amazon.awssdk.services.acmpca.model.InvalidArgsException;
+import software.amazon.awssdk.services.acmpca.model.InvalidPolicyException;
 import software.amazon.awssdk.services.acmpca.model.KeyAlgorithm;
+import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
 import software.amazon.awssdk.services.acmpca.model.RevocationConfiguration;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
@@ -121,11 +124,15 @@ public class CreateCertificateAuthority {
             .build();
 
     // Create the private CA.
-    CreateCertificateAuthorityResponse result = client.createCertificateAuthority(req);
-
-    // Retrieve the ARN of the private CA.
-    String arn = result.certificateAuthorityArn();
-    System.out.println(arn);
+    CreateCertificateAuthorityResponse result;
+    try {
+      result = client.createCertificateAuthority(req);
+      // Retrieve the ARN of the private CA.
+      String arn = result.certificateAuthorityArn();
+      System.out.println(arn);
+    } catch (InvalidArgsException | InvalidPolicyException | LimitExceededException e) {
+      throw e;
+    }
   }
 }
 // snippet-end:[acmpca.java2.CreateCertificateAuthority.main]
