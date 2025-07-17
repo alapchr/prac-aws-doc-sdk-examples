@@ -34,6 +34,7 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `javav
 > see [Model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html).
 >
 <!--custom.prerequisites.end-->
+
 ### Scenarios
 
 Code examples that show you how to accomplish a specific task by calling multiple
@@ -41,6 +42,11 @@ functions within the same service.
 
 - [Generate videos from text prompts using Amazon Bedrock](../../usecases/video_generation_bedrock_nova_reel/src/main/java/com/example/novareel/VideoGenerationService.java)
 - [Tool use with the Converse API](src/main/java/com/example/bedrockruntime/scenario/BedrockScenario.java)
+
+### AI21 Labs Jurassic-2
+
+- [Converse](src/main/java/com/example/bedrockruntime/models/ai21LabsJurassic2/Converse.java#L6)
+- [InvokeModel](src/main/java/com/example/bedrockruntime/models/ai21LabsJurassic2/InvokeModel.java#L6)
 
 ### Amazon Nova
 
@@ -115,11 +121,10 @@ functions within the same service.
 <!--custom.instructions.start-->
 <!--custom.instructions.end-->
 
-
-
 #### Generate videos from text prompts using Amazon Bedrock
 
-This example shows you how to a Spring Boot app that generates videos from text prompts using Amazon Bedrock and the Nova-Reel model.
+This example shows you how to a Spring Boot app that generates videos from text prompts using Amazon Bedrock and the
+Nova-Reel model.
 
 
 <!--custom.scenario_prereqs.bedrock-runtime_Scenario_GenerateVideos_NovaReel.start-->
@@ -131,7 +136,9 @@ This example shows you how to a Spring Boot app that generates videos from text 
 
 #### Tool use with the Converse API
 
-This example shows you how to build a typical interaction between an application, a generative AI model, and connected tools or APIs to mediate interactions between the AI and the outside world. It uses the example of connecting an external weather API to the AI model so it can provide real-time weather information based on user input.
+This example shows you how to build a typical interaction between an application, a generative AI model, and connected
+tools or APIs to mediate interactions between the AI and the outside world. It uses the example of connecting an
+external weather API to the AI model so it can provide real-time weather information based on user input.
 
 
 <!--custom.scenario_prereqs.bedrock-runtime_Scenario_ToolUse.start-->

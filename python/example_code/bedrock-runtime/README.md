@@ -51,6 +51,11 @@ functions within the same service.
 - [Create and invoke a managed prompt](../bedrock-agent/prompts/scenario_get_started_with_prompts.py)
 - [Tool use with the Converse API](cross-model-scenarios/tool_use_demo/tool_use_demo.py)
 
+### AI21 Labs Jurassic-2
+
+- [Converse](models/ai21_labs_jurassic2/converse.py#L4)
+- [InvokeModel](models/ai21_labs_jurassic2/invoke_model.py#L4)
+
 ### Amazon Nova
 
 - [Converse](models/amazon_nova/amazon_nova_text/converse.py#L4)
@@ -158,7 +163,6 @@ This example shows you how to get started using Amazon Bedrock Runtime.
 python hello/hello_bedrock_runtime_invoke.py
 ```
 
-
 #### Create and invoke a managed prompt
 
 This example shows you how to do the following:
@@ -176,7 +180,6 @@ Start the example by running the following at a command prompt:
 ```
 python ../bedrock-agent/prompts/scenario_get_started_with_prompts.py
 ```
-
 
 <!--custom.scenarios.bedrock-agent_GettingStartedWithBedrockPrompts.start-->
 <!--custom.scenarios.bedrock-agent_GettingStartedWithBedrockPrompts.end-->

@@ -45,21 +45,16 @@ Code examples that show you how to perform the essential operations within a ser
 
 Code excerpts that show you how to call individual service functions.
 
-- [CreateDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L472)
-- [CreateDBInstance](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L434)
-- [CreateDBSubnetGroup](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L507)
-- [CreateGraph](src/main/java/com/example/neptune/analytics/CreateNeptuneGraphExample.java#L45)
+- [CreateDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L443)
+- [CreateDBInstance](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L404)
+- [CreateDBSubnetGroup](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L478)
 - [DeleteDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L143)
 - [DeleteDBInstance](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L168)
 - [DeleteDBSubnetGroup](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L126)
-- [DescribeDBClusters](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L319)
-- [DescribeDBInstances](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L375)
-- [ExecuteGremlinProfileQuery](src/main/java/com/example/neptune/database/NeptuneGremlinQueryExample.java#L52)
-- [ExecuteGremlinQuery](src/main/java/com/example/neptune/database/GremlinProfileQueryExample.java#L64)
-- [ExecuteOpenCypherExplainQuery](src/main/java/com/example/neptune/database/OpenCypherExplainExample.java#L52)
-- [ExecuteQuery](src/main/java/com/example/neptune/analytics/NeptuneAnalyticsQueryExample.java#L63)
+- [DescribeDBClusters](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L294)
+- [DescribeDBInstances](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L345)
 - [StartDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L262)
-- [StopDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L290)
+- [StopDBCluster](src/main/java/com/example/neptune/scenerio/NeptuneActions.java#L278)
 
 
 <!--custom.examples.start-->

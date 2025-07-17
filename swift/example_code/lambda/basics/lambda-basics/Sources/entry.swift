@@ -1,7 +1,8 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 //
-/// An example demonstrating a variety of important AWS Lambda functions.
+/// An example that demonstrates how to watch an transcribe event stream to
+/// transcribe audio from a file to the console.
 
 // snippet-start:[swift.lambda-basics.imports-all]
 import ArgumentParser
@@ -120,10 +121,6 @@ struct ExampleCommand: ParsableCommand {
             )
         )
 
-        guard let role = output.role else {
-            throw ExampleError.roleCreateError
-        }
-
         // Wait for the role to be ready for use.
 
         _ = try await iamClient.waitUntilRoleExists(
@@ -134,6 +131,10 @@ struct ExampleCommand: ParsableCommand {
             ),
             input: GetRoleInput(roleName: roleName)
         )
+
+        guard let role = output.role else {
+            throw ExampleError.roleCreateError
+        }
 
         return role
     }
@@ -165,13 +166,13 @@ struct ExampleCommand: ParsableCommand {
     /// 
     /// - Parameters:
     ///   - lambdaClient: The `LambdaClient` to use.
-    ///   - functionName: The name of the AWS Lambda function to create.
+    ///   - name: The name of the AWS Lambda function to create.
     ///   - roleArn: The ARN of the role to apply to the function.
     ///   - path: The path of the Zip archive containing the function.
     /// 
     /// - Returns: `true` if the AWS Lambda was successfully created; `false`
     ///   if it wasn't.
-    func createFunction(lambdaClient: LambdaClient, functionName: String,
+    func createFunction(lambdaClient: LambdaClient, name: String,
                                 roleArn: String?, path: String) async throws -> Bool {
         // snippet-start:[swift.lambda-basics.CreateFunction]
         do {
@@ -187,15 +188,13 @@ struct ExampleCommand: ParsableCommand {
             _ = try await lambdaClient.createFunction(
                 input: CreateFunctionInput(
                     code: LambdaClientTypes.FunctionCode(zipFile: zipData),
-                    functionName: functionName,
+                    functionName: name,
                     handler: "handle",
                     role: roleArn,
                     runtime: .providedal2
                 )
             )
         } catch {
-            print("*** Error creating Lambda function:")
-            dump(error)
             return false
         }
         // snippet-end:[swift.lambda-basics.CreateFunction]
@@ -208,7 +207,7 @@ struct ExampleCommand: ParsableCommand {
                 minDelay: 0.5,
                 maxDelay: 2
             ),
-            input: GetFunctionInput(functionName: functionName)
+            input: GetFunctionInput(functionName: name)
         )
 
         switch output.result {
@@ -226,13 +225,13 @@ struct ExampleCommand: ParsableCommand {
     /// 
     /// - Parameters:
     ///   - lambdaClient: The `LambdaClient` to use.
-    ///   - functionName: The name of the AWS Lambda function to update.
+    ///   - name: The name of the AWS Lambda function to update.
     ///   - path: The pathname of the Zip file containing the packaged Lambda
     ///     function.
     /// - Throws: `ExampleError.zipFileReadError`
     /// - Returns: `true` if the function's code is updated successfully.
     ///   Otherwise, returns `false`.
-    func updateFunctionCode(lambdaClient: LambdaClient, functionName: String,
+    func updateFunctionCode(lambdaClient: LambdaClient, name: String,
                             path: String) async throws -> Bool {
         // snippet-start:[swift.lambda-basics.UpdateFunctionCode]
         let zipUrl = URL(fileURLWithPath: path)
@@ -252,7 +251,7 @@ struct ExampleCommand: ParsableCommand {
         do {
             _ = try await lambdaClient.updateFunctionCode(
                 input: UpdateFunctionCodeInput(
-                    functionName: functionName,
+                    functionName: name,
                     zipFile: zipData
                 )
             )
@@ -268,7 +267,7 @@ struct ExampleCommand: ParsableCommand {
                 maxDelay: 2
             ),
             input: GetFunctionInput(
-                functionName: functionName
+                functionName: name
             )
         )
 
@@ -280,58 +279,6 @@ struct ExampleCommand: ParsableCommand {
         }
     }
     // snippet-end:[swift.lambda-basics.UpdateFunctionCode.wait]
-
-    // snippet-start:[swift.lambda-basics.UpdateFunctionConfiguration]
-    /// Tell the server-side component to log debug output by setting its
-    /// environment's `LOG_LEVEL` to `DEBUG`.
-    ///
-    /// - Parameters:
-    ///   - lambdaClient: The `LambdaClient` to use.
-    ///   - functionName: The name of the AWS Lambda function to enable debug
-    ///     logging for.
-    ///
-    /// - Throws: `ExampleError.environmentResponseMissingError`,
-    ///   `ExampleError.updateFunctionConfigurationError`,
-    ///   `ExampleError.environmentVariablesMissingError`,
-    ///   `ExampleError.logLevelIncorrectError`,
-    ///   `ExampleError.updateFunctionConfigurationError`
-    func enableDebugLogging(lambdaClient: LambdaClient, functionName: String) async throws {
-        let envVariables = [
-            "LOG_LEVEL": "DEBUG"
-        ]
-        let environment = LambdaClientTypes.Environment(variables: envVariables)
-
-        do {
-            let output = try await lambdaClient.updateFunctionConfiguration(
-                input: UpdateFunctionConfigurationInput(
-                    environment: environment,
-                    functionName: functionName
-                )
-            )
-
-            guard let response = output.environment else {
-                throw ExampleError.environmentResponseMissingError
-            }
-
-            if response.error != nil {
-                throw ExampleError.updateFunctionConfigurationError
-            }
-
-            guard let retVariables = response.variables else {
-                throw ExampleError.environmentVariablesMissingError
-            }
-
-            for envVar in retVariables {
-                if envVar.key == "LOG_LEVEL" && envVar.value != "DEBUG" {
-                    print("*** Log level is not set to DEBUG!")
-                    throw ExampleError.logLevelIncorrectError
-                }
-            }
-        } catch {
-            throw ExampleError.updateFunctionConfigurationError
-        }
-    }
-    // snippet-end:[swift.lambda-basics.UpdateFunctionConfiguration]
 
     // snippet-start:[swift.lambda-basics.ListFunctionsPaginated]
     /// Returns an array containing the names of all AWS Lambda functions
@@ -489,9 +436,8 @@ struct ExampleCommand: ParsableCommand {
         // function.
 
         print("Creating the increment Lambda function...")
-        if try await createFunction(lambdaClient: lambdaClient, functionName: basicsFunctionName, 
+        if try await createFunction(lambdaClient: lambdaClient, name: basicsFunctionName, 
                                   roleArn: iamRole.arn, path: incpath) {
-            print("Running increment function calls...")
             for number in 0...4 {
                 do {
                     let answer = try await invokeIncrement(lambdaClient: lambdaClient, number: number)
@@ -500,23 +446,15 @@ struct ExampleCommand: ParsableCommand {
                     print("Error incrementing \(number): ", error.localizedDescription)
                 }
             }
-        } else {
-            print("*** Failed to create the increment function.")
         }
         
-        // Enable debug logging.
-
-        print("\nEnabling debug logging...")
-        try await enableDebugLogging(lambdaClient: lambdaClient, functionName: basicsFunctionName)
-
         // Change it to a basic arithmetic calculator. Then invoke it a few
         // times.
 
         print("\nReplacing the Lambda function with a calculator...")
 
-        if try await updateFunctionCode(lambdaClient: lambdaClient, functionName: basicsFunctionName, 
+        if try await updateFunctionCode(lambdaClient: lambdaClient, name: "lambda-basics-function", 
                                     path: calcpath) {
-            print("Running calculator function calls...")
             for x in [6, 10] {
                 for y in [2, 4] {
                     for action in ["plus", "minus", "times", "divided-by"] {

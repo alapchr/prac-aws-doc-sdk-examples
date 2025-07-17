@@ -12,6 +12,7 @@ public class ActionTest_InvokeModel
     [InlineData(typeof(CohereCommandR.InvokeModel))]
     [InlineData(typeof(AnthropicClaude.InvokeModel))]
     [InlineData(typeof(AmazonTitanText.InvokeModel))]
+    [InlineData(typeof(Ai21LabsJurassic2.InvokeModel))]
     [InlineData(typeof(AmazonNovaCanvas.InvokeModel))]
     public void InvokeModelDoesNotThrow(Type type)
     {
