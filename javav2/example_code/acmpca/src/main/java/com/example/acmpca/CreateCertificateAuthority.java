@@ -124,7 +124,7 @@ public class CreateCertificateAuthority {
             .build();
 
     // Create the private CA.
-    CreateCertificateAuthorityResponse result;
+    CreateCertificateAuthorityResponse result; 
     try {
       result = client.createCertificateAuthority(req);
       // Retrieve the ARN of the private CA.

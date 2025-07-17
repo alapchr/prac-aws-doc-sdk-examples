@@ -51,7 +51,7 @@ public class GetCertificateAuthorityCertificate {
     GetCertificateAuthorityCertificateRequest req =
         GetCertificateAuthorityCertificateRequest.builder().certificateAuthorityArn(caArn).build();
 
-    // Create a result object.
+    // Create a result object. 
     try {
       GetCertificateAuthorityCertificateResponse result =
           client.getCertificateAuthorityCertificate(req);

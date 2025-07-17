@@ -41,7 +41,7 @@ public class DescribeCertificateAuthority {
     String regionName = args[0];
     String certArn = args[1];
 
-    // Create a client that you can use to make requests.
+    // Create a client that you can use to make requests. 
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a request object and set the certificate authority ARN.
