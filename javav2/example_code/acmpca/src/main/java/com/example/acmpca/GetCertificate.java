@@ -8,11 +8,6 @@ import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateRequest;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateResponse;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidStateException;
-import software.amazon.awssdk.services.acmpca.model.RequestFailedException;
-import software.amazon.awssdk.services.acmpca.model.RequestInProgressException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
 
 // snippet-start:[acmpca.java2.GetCertificate.main]
@@ -77,11 +72,7 @@ public class GetCertificate {
       // Get the certificate and display the result.
       String strCert = result.certificate();
       System.out.println(strCert);
-    } catch (RequestInProgressException
-        | RequestFailedException
-        | ResourceNotFoundException
-        | InvalidArnException
-        | InvalidStateException e) {
+    } catch (AcmPcaException e) {
       throw e;
     }
   }

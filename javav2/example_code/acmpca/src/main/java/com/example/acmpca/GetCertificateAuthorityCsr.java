@@ -5,16 +5,10 @@ package com.example.acmpca;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
-
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCsrRequest;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCsrResponse;
-
-import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.RequestFailedException;
-import software.amazon.awssdk.services.acmpca.model.RequestInProgressException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
+import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
 
 // snippet-start:[acmpca.java2.GetCertificateAuthorityCsr.main]
 /**
@@ -65,19 +59,12 @@ public class GetCertificateAuthorityCsr {
       System.out.println("Error: " + e.getMessage());
     }
 
-    // Retrieve the CSR.
-    GetCertificateAuthorityCsrResponse result = null;
     try {
-      result = client.getCertificateAuthorityCsr(req);
+      // Retrieve the CSR.
+      GetCertificateAuthorityCsrResponse result = client.getCertificateAuthorityCsr(req);
       // Retrieve and display the CSR;
       String Csr = result.csr();
       System.out.println(Csr);
-
-    } catch (RequestInProgressException
-        | ResourceNotFoundException
-        | InvalidArnException
-        | RequestFailedException e) {
-      throw e;
     } catch (AcmPcaException e) {
       throw e;
     }

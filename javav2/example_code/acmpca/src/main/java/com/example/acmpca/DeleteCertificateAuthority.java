@@ -7,10 +7,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.DeleteCertificateAuthorityRequest;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidStateException;
-import software.amazon.awssdk.services.acmpca.model.RequestFailedException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 
 // snippet-start:[acmpca.java2.DeleteCertificateAuthority.main]
 /**
@@ -55,11 +51,6 @@ public class DeleteCertificateAuthority {
     try {
       client.deleteCertificateAuthority(req);
       System.out.println("Successfully deleted Certificate Authority!");
-    } catch (ResourceNotFoundException
-        | InvalidArnException
-        | InvalidStateException
-        | RequestFailedException e) {
-      throw e;
     } catch (AcmPcaException e) {
       throw e;
     }

@@ -7,12 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidTagException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 import software.amazon.awssdk.services.acmpca.model.TagCertificateAuthorityRequest;
-import software.amazon.awssdk.services.acmpca.model.TooManyTagsException;
 
 // snippet-start:[acmpca.java2.TagCertificateAuthorities.main]
 /**
@@ -68,21 +65,15 @@ public class TagCertificateAuthorities {
     tags.add(tag1);
     tags.add(tag2);
 
-    // Create a request object and specify the certificate authority ARN.
+    // Create a request object and specify the certificate authority ARN and tags.
     TagCertificateAuthorityRequest req =
-        TagCertificateAuthorityRequest.builder().certificateAuthorityArn(caArn).build();
+        TagCertificateAuthorityRequest.builder().certificateAuthorityArn(caArn).tags(tags).build();
 
-    // Add a tag
+    // Add tags
     try {
       client.tagCertificateAuthority(req);
-    } catch (InvalidArnException ex) {
-      throw ex;
-    } catch (ResourceNotFoundException ex) {
-      throw ex;
-    } catch (InvalidTagException ex) {
-      throw ex;
-    } catch (TooManyTagsException ex) {
-      throw ex;
+    } catch (AcmPcaException e) {
+      throw e;
     }
   }
 }

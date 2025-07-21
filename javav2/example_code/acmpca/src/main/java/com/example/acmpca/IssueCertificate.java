@@ -10,14 +10,8 @@ import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
-import software.amazon.awssdk.services.acmpca.model.InvalidArgsException;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidStateException;
 import software.amazon.awssdk.services.acmpca.model.IssueCertificateRequest;
 import software.amazon.awssdk.services.acmpca.model.IssueCertificateResponse;
-import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
-import software.amazon.awssdk.services.acmpca.model.MalformedCsrException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Validity;
 
@@ -41,7 +35,7 @@ public class IssueCertificate {
   }
 
   public static void main(String[] args) throws Exception {
-    
+
     final String usage =
         """
                Usage: <region> <caArn>
@@ -102,13 +96,6 @@ public class IssueCertificate {
       String arn = result.certificateArn();
       System.out.println("Certificate ARN: " + arn);
 
-    } catch (LimitExceededException
-        | ResourceNotFoundException
-        | InvalidStateException
-        | InvalidArnException
-        | InvalidArgsException
-        | MalformedCsrException e) {
-      throw e;
     } catch (AcmPcaException e) {
       throw e;
     }

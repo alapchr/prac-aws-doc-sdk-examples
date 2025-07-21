@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidTagException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.Tag;
 import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityRequest;
 
@@ -70,12 +68,8 @@ public class UntagCertificateAuthority {
     // Delete the tag
     try {
       client.untagCertificateAuthority(req);
-    } catch (InvalidArnException ex) {
-      throw ex;
-    } catch (ResourceNotFoundException ex) {
-      throw ex;
-    } catch (InvalidTagException ex) {
-      throw ex;
+    } catch (AcmPcaException e) {
+      throw e;
     }
   }
 }
