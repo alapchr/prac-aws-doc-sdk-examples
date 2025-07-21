@@ -72,8 +72,8 @@ public class GetCertificate {
       // Get the certificate and display the result.
       String strCert = result.certificate();
       System.out.println(strCert);
-    } catch (AcmPcaException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      throw ex;
     }
   }
 }

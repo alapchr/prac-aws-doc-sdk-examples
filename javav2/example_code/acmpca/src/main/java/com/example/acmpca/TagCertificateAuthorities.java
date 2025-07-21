@@ -72,8 +72,8 @@ public class TagCertificateAuthorities {
     // Add tags
     try {
       client.tagCertificateAuthority(req);
-    } catch (AcmPcaException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      throw ex;
     }
   }
 }

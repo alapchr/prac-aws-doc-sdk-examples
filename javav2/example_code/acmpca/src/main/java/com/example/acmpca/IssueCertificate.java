@@ -96,8 +96,8 @@ public class IssueCertificate {
       String arn = result.certificateArn();
       System.out.println("Certificate ARN: " + arn);
 
-    } catch (AcmPcaException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      throw ex;
     }
   }
 }

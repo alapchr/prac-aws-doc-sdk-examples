@@ -65,8 +65,8 @@ public class GetCertificateAuthorityCsr {
       // Retrieve and display the CSR;
       String Csr = result.csr();
       System.out.println(Csr);
-    } catch (AcmPcaException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      throw ex;
     }
   }
 }

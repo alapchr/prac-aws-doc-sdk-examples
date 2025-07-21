@@ -68,8 +68,8 @@ public class UntagCertificateAuthority {
     // Delete the tag
     try {
       client.untagCertificateAuthority(req);
-    } catch (AcmPcaException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      throw ex;
     }
   }
 }
