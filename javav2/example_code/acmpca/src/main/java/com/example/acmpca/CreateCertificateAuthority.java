@@ -52,11 +52,8 @@ public class CreateCertificateAuthority {
     String regionName = args[0];
     String s3BucketName = args[1];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
-
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Define a CA subject.
     /*

@@ -53,11 +53,9 @@ public class ListTags {
       ListTagsResponse result = client.listTags(req);
       // Retrieve and display the tags.
       System.out.println(result);
-    } catch (InvalidArnException | ResourceNotFoundException e) {
-      throw e;
-    } catch (AcmPcaException e) {
-      throw e;
-    }
+    } catch (InvalidArnException | ResourceNotFoundException ex) {
+      throw ex;
+    } 
   }
 }
 // snippet-end:[acmpca.java2.ListTags.main]

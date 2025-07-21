@@ -59,8 +59,8 @@ public class GetCertificateAuthorityCertificate {
       String pcaChain = result.certificateChain();
       System.out.println(pcaChain);
 
-    } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException e) {
-      throw e;
+    } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException ex) {
+      throw ex;
     } 
   }
 }

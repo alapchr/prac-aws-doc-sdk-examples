@@ -5,7 +5,6 @@ package com.example.acmpca;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthority;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityResponse;
@@ -33,7 +32,7 @@ public class DescribeCertificateAuthority {
                   certArn - the ARN of the certificate authority
                """;
 
-    if (args.length < 2) {
+    if (args.length != 2) {
       System.out.println(usage);
       return;
     }
@@ -47,11 +46,9 @@ public class DescribeCertificateAuthority {
     // Create a request object and set the certificate authority ARN.
     DescribeCertificateAuthorityRequest req =
         DescribeCertificateAuthorityRequest.builder()
-            .certificateAuthorityArn(certArn) // set the certificate authority ARN
+            .certificateAuthorityArn(certArn) 
             .build();
-
     try {
-
       DescribeCertificateAuthorityResponse result = client.describeCertificateAuthority(req);
 
       // Retrieve and display information about the CA.
@@ -59,10 +56,8 @@ public class DescribeCertificateAuthority {
       String strPCA = PCA.toString();
       System.out.println(strPCA);
 
-    } catch (InvalidArnException | ResourceNotFoundException e) {
-      throw e;
-    } catch (AcmPcaException e) {
-      System.out.println(e.getMessage());
+    } catch (InvalidArnException | ResourceNotFoundException ex) {
+      throw ex;
     }
   }
 }
