@@ -41,11 +41,8 @@ public class GetCertificateAuthorityCertificate {
     String regionName = args[0];
     String caArn = args[1];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
-
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a request object with the Certificate Authority Arn
     GetCertificateAuthorityCertificateRequest req =
@@ -57,14 +54,14 @@ public class GetCertificateAuthorityCertificate {
           client.getCertificateAuthorityCertificate(req);
 
       // Retrieve and display the certificate information.
-      String strPcaCert = result.certificate();
-      System.out.println(strPcaCert);
-      String strPCACChain = result.certificateChain();
-      System.out.println(strPCACChain);
+      String pcaCert = result.certificate();
+      System.out.println(pcaCert);
+      String pcaChain = result.certificateChain();
+      System.out.println(pcaChain);
 
     } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException e) {
       throw e;
-    }
+    } 
   }
 }
 // snippet-end:[acmpca.java2.GetCertificateAuthorityCertificate.main]

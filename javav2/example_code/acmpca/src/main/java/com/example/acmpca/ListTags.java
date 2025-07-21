@@ -42,11 +42,8 @@ public class ListTags {
     String regionName = args[0];
     String caArn = args[1];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
-
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a request object and set the CA ARN.
     ListTagsRequest req = ListTagsRequest.builder().certificateAuthorityArn(caArn).build();
@@ -59,7 +56,7 @@ public class ListTags {
     } catch (InvalidArnException | ResourceNotFoundException e) {
       throw e;
     } catch (AcmPcaException e) {
-      System.out.println("ERROR: " + e.getMessage());
+      throw e;
     }
   }
 }
