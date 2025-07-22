@@ -5,11 +5,9 @@ package com.example.acmpca;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCertificateRequest;
 import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCertificateResponse;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
-import software.amazon.awssdk.services.acmpca.model.InvalidStateException;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 
 // snippet-start:[acmpca.java2.GetCertificateAuthorityCertificate.main]
 /**
@@ -59,9 +57,9 @@ public class GetCertificateAuthorityCertificate {
       String pcaChain = result.certificateChain();
       System.out.println(pcaChain);
 
-    } catch (ResourceNotFoundException | InvalidStateException | InvalidArnException ex) {
-      throw ex;
-    } 
+    } catch (AcmPcaException ex) {
+      System.err.println(ex.awsErrorDetails().errorMessage());
+    }
   }
 }
 // snippet-end:[acmpca.java2.GetCertificateAuthorityCertificate.main]

@@ -6,10 +6,8 @@ package com.example.acmpca;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
-import software.amazon.awssdk.services.acmpca.model.InvalidArnException;
 import software.amazon.awssdk.services.acmpca.model.ListTagsRequest;
 import software.amazon.awssdk.services.acmpca.model.ListTagsResponse;
-import software.amazon.awssdk.services.acmpca.model.ResourceNotFoundException;
 
 // snippet-start:[acmpca.java2.ListTags.main]
 /**
@@ -53,9 +51,9 @@ public class ListTags {
       ListTagsResponse result = client.listTags(req);
       // Retrieve and display the tags.
       System.out.println(result);
-    } catch (InvalidArnException | ResourceNotFoundException ex) {
-      throw ex;
-    } 
+    } catch (AcmPcaException ex) {
+      System.err.println(ex.awsErrorDetails().errorMessage());
+    }
   }
 }
 // snippet-end:[acmpca.java2.ListTags.main]

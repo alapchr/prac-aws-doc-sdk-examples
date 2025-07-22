@@ -5,8 +5,8 @@ package com.example.acmpca;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthority;
-import software.amazon.awssdk.services.acmpca.model.InvalidNextTokenException;
 import software.amazon.awssdk.services.acmpca.model.ListCertificateAuthoritiesRequest;
 import software.amazon.awssdk.services.acmpca.model.ListCertificateAuthoritiesResponse;
 
@@ -50,11 +50,11 @@ public class ListCertificateAuthorities {
     try {
       ListCertificateAuthoritiesResponse result = client.listCertificateAuthorities(req);
       // Display the CA list.
-       for (CertificateAuthority ca : result.certificateAuthorities()) {
+      for (CertificateAuthority ca : result.certificateAuthorities()) {
         System.out.println(ca + "\n");
       }
-    } catch (InvalidNextTokenException ex) {
-      throw ex;
+    } catch (AcmPcaException ex) {
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }

@@ -8,15 +8,13 @@ import java.util.List;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.ASN1Subject;
+import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityConfiguration;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityType;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.CrlConfiguration;
-import software.amazon.awssdk.services.acmpca.model.InvalidArgsException;
-import software.amazon.awssdk.services.acmpca.model.InvalidPolicyException;
 import software.amazon.awssdk.services.acmpca.model.KeyAlgorithm;
-import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
 import software.amazon.awssdk.services.acmpca.model.RevocationConfiguration;
 import software.amazon.awssdk.services.acmpca.model.SigningAlgorithm;
 import software.amazon.awssdk.services.acmpca.model.Tag;
@@ -52,8 +50,11 @@ public class CreateCertificateAuthority {
     String regionName = args[0];
     String s3BucketName = args[1];
 
+    // Define the region for your sample.
+    Region region = Region.of(regionName);
+
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
 
     // Define a CA subject.
     /*
@@ -127,8 +128,8 @@ public class CreateCertificateAuthority {
       // Retrieve the ARN of the private CA.
       String arn = result.certificateAuthorityArn();
       System.out.println(arn);
-    } catch (InvalidArgsException | InvalidPolicyException | LimitExceededException e) {
-      throw e;
+    } catch (AcmPcaException ex) {
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }
