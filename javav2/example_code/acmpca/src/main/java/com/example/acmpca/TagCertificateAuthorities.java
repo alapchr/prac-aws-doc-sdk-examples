@@ -42,11 +42,8 @@ public class TagCertificateAuthorities {
     String regionName = args[0];
     String caArn = args[1];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
-
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a tag - method 1
     /*
@@ -73,7 +70,7 @@ public class TagCertificateAuthorities {
     try {
       client.tagCertificateAuthority(req);
     } catch (AcmPcaException ex) {
-      throw ex;
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }

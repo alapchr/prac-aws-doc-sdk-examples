@@ -13,6 +13,20 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
+acm-pca_DeleteCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.DeleteCertificateAuthority.main
+  services:
+     acm-pca: {DeleteCertificateAuthority}
+
 acm-pca_DescribeCertificateAuthority:
   languages:
     Java:
@@ -40,6 +54,48 @@ acm-pca_GetCertificateAuthorityCertificate:
                 - acmpca.java2.GetCertificateAuthorityCertificate.main
   services:
      acm-pca: {GetCertificateAuthorityCertificate}
+
+acm-pca_GetCertificateAuthorityCsr:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.GetCertificateAuthorityCsr.main
+  services:
+     acm-pca: {GetCertificateAuthorityCsr}
+
+acm-pca_GetCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.GetCertificate.main
+  services:
+     acm-pca: {GetCertificate}
+
+acm-pca_IssueCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.IssueCertificate.main
+  services:
+     acm-pca: {IssueCertificate}
 
 acm-pca_ListCertificateAuthorities:
   languages:
@@ -69,4 +125,31 @@ acm-pca_ListTags:
   services:
      acm-pca: {ListTags}
 
+acm-pca_TagCertificateAuthorities:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.TagCertificateAuthorities.main
+  services:
+     acm-pca: {TagCertificateAuthorities}
 
+
+acm-pca_UntagCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.UntagCertificateAuthority.main
+  services:
+     acm-pca: {UntagCertificateAuthority}     

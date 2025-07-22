@@ -45,7 +45,7 @@ public class IssueCertificate {
                   caArn - The ARN of the certificate authority.
                """;
 
-    if (args.length < 2) {
+    if (args.length != 2) {
       System.out.println(usage);
       return;
     }
@@ -53,11 +53,8 @@ public class IssueCertificate {
     String regionName = args[0];
     String caArn = args[1];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
-
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     try {
       // Use the actual CSR retrieved from the certificate authority
@@ -97,7 +94,7 @@ public class IssueCertificate {
       System.out.println("Certificate ARN: " + arn);
 
     } catch (AcmPcaException ex) {
-      throw ex;
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }

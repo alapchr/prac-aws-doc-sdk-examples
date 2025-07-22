@@ -52,7 +52,7 @@ public class DeleteCertificateAuthority {
       client.deleteCertificateAuthority(req);
       System.out.println("Successfully deleted Certificate Authority!");
     } catch (AcmPcaException ex) {
-      throw ex;
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }

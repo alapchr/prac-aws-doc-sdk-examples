@@ -43,11 +43,9 @@ public class GetCertificate {
     String certArn = args[1];
     String caArn = args[2];
 
-    // Define the region for your sample.
-    Region region = Region.of(regionName);
 
     // Create a client.
-    AcmPcaClient client = AcmPcaClient.builder().region(region).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a request object.
     GetCertificateRequest req =
@@ -73,7 +71,7 @@ public class GetCertificate {
       String strCert = result.certificate();
       System.out.println(strCert);
     } catch (AcmPcaException ex) {
-      throw ex;
+     System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }
