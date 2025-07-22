@@ -49,9 +49,8 @@ public class DescribeCertificateAuthority {
       DescribeCertificateAuthorityResponse result = client.describeCertificateAuthority(req);
 
       // Retrieve and display information about the CA.
-      CertificateAuthority PCA = result.certificateAuthority();
-      String strPCA = PCA.toString();
-      System.out.println(strPCA);
+      CertificateAuthority ca = result.certificateAuthority();
+      System.out.println(ca.toString());
 
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
