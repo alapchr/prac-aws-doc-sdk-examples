@@ -10,10 +10,10 @@ import software.amazon.awssdk.services.acmpca.model.DeleteCertificateAuthorityRe
 
 // snippet-start:[acmpca.java2.DeleteCertificateAuthority.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * 
+ * For more information, see the following documentation topic:
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class DeleteCertificateAuthority {
@@ -21,36 +21,36 @@ public class DeleteCertificateAuthority {
 
     final String usage =
         """
+            Usage: <region> <certArn> <restorePeriod>
 
-               Usage: <region> <certArn>
-
-               Where:
-                  region - the AWS region (e.g. us-east-1)
-                  certArn - the ARN of the certificate authority to delete
-               """;
+            Where:
+               region - the AWS region (e.g. us-east-1)
+               caArn - the ARN of the certificate authority to delete
+               restorePeriod - (optional) The number of days for restoration before permanent deletion occurs
+            """;
 
     if (args.length < 2 || args.length > 3) {
       System.out.println(usage);
       return;
     }
 
-    String regionName = args[0];
-    String certArn = args[1];
+    String region = args[0];
+    String caArn = args[1];
+    int restorePeriod = args.length == 3 ? Integer.parseInt(args[2]) : 30; // Default restoration period: 30 days
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create a request object and set the ARN of the private CA to delete.
     DeleteCertificateAuthorityRequest req =
         DeleteCertificateAuthorityRequest.builder()
-            .certificateAuthorityArn(certArn) // Set the certificate authority ARN
-            .permanentDeletionTimeInDays(12) // Set the recovery period
+            .certificateAuthorityArn(caArn)
+            .permanentDeletionTimeInDays(restorePeriod)
             .build();
-
-    // Delete the CA.
+   
     try {
       client.deleteCertificateAuthority(req);
-      System.out.println("Successfully deleted Certificate Authority!");
+      System.out.println("Successfully deleted CA!");
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }

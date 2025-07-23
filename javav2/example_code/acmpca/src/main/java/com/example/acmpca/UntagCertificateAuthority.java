@@ -13,48 +13,51 @@ import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityReq
 
 // snippet-start:[acmpca.java2.UntagCertificateAuthority.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
- *
- * <p>https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * 
+ * For more information, see the following documentation topic:
+ * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class UntagCertificateAuthority {
 
   public static void main(String[] args) throws Exception {
 
-    final String usage =
+    final String usage = 
         """
+           Usage: <regionName> <caArn> <tagRemoval>
 
-                Usage: <regionName> <caArn>
+           Where:
+               region - The AWS region (e.g. us-east-1)
+               caArn - The ARN of the certificate authority
+               tagRemoval - The tag(s) to remove. Specify either 'KeyOnly' or 'Key&Value'
+           """;
 
-                Where:
-                    region - The AWS region (e.g. us-east-1)
-                    caArn - The ARN of the certificate authority
-                """;
-
-    if (args.length != 2) {
+    if (args.length != 3) {
       System.out.println(usage);
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String caArn = args[1];
+    String tagRemoval = args[2];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
-
-    // Create a Tag object with the tag to delete.
-    /*
-     * Replace the parameter for KEY and VALUE with your appropriate information
-     */
-    Tag tag = Tag.builder().key("Administrator").value("Bob").build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Add the tags to a collection.
     List<Tag> tags = new ArrayList<>();
-    tags.add(tag);
-
+    
+    if (tagRemoval.equalsIgnoreCase("KeyOnly")) {
+        // Replace the parameter for KEY your appropriate information
+        Tag tagKeyOnly = Tag.builder().key("Administrator").build();
+        tags.add(tagKeyOnly);
+    } else if (tagRemoval.equalsIgnoreCase("Key&Value")) {
+        // Replace the parameter for KEY and VALUE with your appropriate information
+        Tag tagKeyValue = Tag.builder().key("PrivateCA").value("WebServices").build();
+        tags.add(tagKeyValue);
+    }
+        
     // Create a request object and specify the certificate authority ARN.
     UntagCertificateAuthorityRequest req =
         UntagCertificateAuthorityRequest.builder()
@@ -62,12 +65,13 @@ public class UntagCertificateAuthority {
             .tags(tags)
             .build();
 
-    // Delete the tag
     try {
       client.untagCertificateAuthority(req);
+      System.out.println("Successfully untagged CA!"); 
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }
 // snippet-end:[acmpca.java2.UntagCertificateAuthority.main]
+

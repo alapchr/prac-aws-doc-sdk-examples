@@ -12,12 +12,11 @@ import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
 
 // snippet-start:[acmpca.java2.GetCertificateAuthorityCsr.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
- *
- * <p>https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * 
+ * For more information, see the following documentation topic:
+ * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class GetCertificateAuthorityCsr {
 
@@ -25,29 +24,29 @@ public class GetCertificateAuthorityCsr {
 
     final String usage =
         """
-               Usage: <region> <caArn>
+            Usage: <region> <caArn>
 
-               Where:
-                  region - the AWS region (e.g. us-east-1)
-                  caArn - The ARN of the certificate authority
-
-               """;
+            Where:
+               region - the AWS region (e.g. us-east-1)
+               caArn - The ARN of the certificate authority
+            """;
 
     if (args.length != 2) {
       System.out.println(usage);
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String caArn = args[1];
-
    
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create the request object and set the CA ARN.
     GetCertificateAuthorityCsrRequest req =
-        GetCertificateAuthorityCsrRequest.builder().certificateAuthorityArn(caArn).build();
+        GetCertificateAuthorityCsrRequest.builder()
+            .certificateAuthorityArn(caArn)
+            .build();
 
     // Create waiter to wait on successful creation of the CSR file.
     try (AcmPcaWaiter waiter = client.waiter()) {
@@ -58,9 +57,8 @@ public class GetCertificateAuthorityCsr {
     }
 
     try {
-      // Retrieve the CSR.
       GetCertificateAuthorityCsrResponse result = client.getCertificateAuthorityCsr(req);
-      // Retrieve and display the CSR;
+      // Retrieve and display the CSR.
       String Csr = result.csr();
       System.out.println(Csr);
     } catch (AcmPcaException ex) {
