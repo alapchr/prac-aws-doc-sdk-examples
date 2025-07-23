@@ -24,34 +24,35 @@ public class DescribeCertificateAuthority {
 
     final String usage =
         """
-               Usage: <region> <certArn>
+            Usage: <region> <caArn>
 
-               Where:
-                  region - the AWS region (e.g. us-east-1)
-                  certArn - the ARN of the certificate authority
-               """;
+            Where:
+                region - the AWS region (e.g. us-east-1)
+                caArn - the ARN of the certificate authority 
+            """;
 
     if (args.length != 2) {
       System.out.println(usage);
       return;
     }
 
-    String regionName = args[0];
-    String certArn = args[1];
+    String region = args[0];
+    String caArn = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create a request object and set the certificate authority ARN.
     DescribeCertificateAuthorityRequest req =
-        DescribeCertificateAuthorityRequest.builder().certificateAuthorityArn(certArn).build();
+        DescribeCertificateAuthorityRequest.builder()
+           .certificateAuthorityArn(caArn)
+           .build();
+
     try {
       DescribeCertificateAuthorityResponse result = client.describeCertificateAuthority(req);
-
       // Retrieve and display information about the CA.
       CertificateAuthority ca = result.certificateAuthority();
       System.out.println(ca.toString());
-
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }

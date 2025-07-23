@@ -34,12 +34,11 @@ public class CreateCertificateAuthority {
 
     final String usage =
         """
-
             Usage: <region> <s3BucketName>
 
             Where:
-                region - The AWS region (e.g., us-east-1).
-                s3BucketName - The name of your bucket for CRL revocation.
+                region - The AWS region (e.g., us-east-1)
+                s3BucketName - The name of your bucket for CRL revocation
             """;
 
     if (args.length != 2) {
@@ -47,11 +46,11 @@ public class CreateCertificateAuthority {
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String s3BucketName = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Define a CA subject.
     /*
@@ -86,20 +85,22 @@ public class CreateCertificateAuthority {
             .build();
 
     RevocationConfiguration revokeConfig =
-        RevocationConfiguration.builder().crlConfiguration(crlConfigure).build();
+        RevocationConfiguration.builder()
+           .crlConfiguration(crlConfigure)
+           .build();
 
     // Define a certificate authority type: ROOT or SUBORDINATE.
     CertificateAuthorityType CAtype = CertificateAuthorityType.ROOT;
 
     // Create a tag - method 1
     /*
-     * Replace the parameter for key and value with your appropriate information
+     * Replace the parameter for KEY and VALUE with your appropriate information
      */
     Tag tag1 = Tag.builder().key("PrivateCA").value("Sample").build();
 
     // Create a tag - method 2
     /*
-     *  Replace the parameter for key and value with your appropriate information
+     *  Replace the parameter for KEY and VALUE with your appropriate information
      */
     Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
 
@@ -118,10 +119,8 @@ public class CreateCertificateAuthority {
             .tags(tags)
             .build();
 
-    // Create the private CA.
-    CreateCertificateAuthorityResponse result;
     try {
-      result = client.createCertificateAuthority(req);
+      CreateCertificateAuthorityResponse result = client.createCertificateAuthority(req);
       // Retrieve the ARN of the private CA.
       String arn = result.certificateAuthorityArn();
       System.out.println(arn);

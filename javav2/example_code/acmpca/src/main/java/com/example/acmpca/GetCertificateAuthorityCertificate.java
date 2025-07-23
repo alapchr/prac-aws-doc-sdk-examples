@@ -23,40 +23,37 @@ public class GetCertificateAuthorityCertificate {
 
     final String usage =
         """
+            Usage: <region> <caArn>
 
-         Usage: <regionName> <caArn>
-
-         Where:
-            regionName - The AWS region (e.g. us-east-1).
-            caArn - The ARN of the certificate authority.
-         """;
+            Where:
+                region - The AWS region (e.g. us-east-1)
+                caArn - The ARN of the certificate authority
+            """;
 
     if (args.length != 2) {
       System.out.println(usage);
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String caArn = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create a request object with the Certificate Authority Arn
     GetCertificateAuthorityCertificateRequest req =
-        GetCertificateAuthorityCertificateRequest.builder().certificateAuthorityArn(caArn).build();
+        GetCertificateAuthorityCertificateRequest.builder()
+           .certificateAuthorityArn(caArn)
+           .build();
 
-    // Create a result object.
     try {
-      GetCertificateAuthorityCertificateResponse result =
-          client.getCertificateAuthorityCertificate(req);
-
+      GetCertificateAuthorityCertificateResponse result = client.getCertificateAuthorityCertificate(req);
       // Retrieve and display the certificate information.
       String pcaCert = result.certificate();
       System.out.println(pcaCert);
       String pcaChain = result.certificateChain();
       System.out.println(pcaChain);
-
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }

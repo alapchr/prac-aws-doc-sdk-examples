@@ -25,7 +25,6 @@ public class ListCertificateAuthorities {
 
     final String usage =
         """
-
             Usage: <region>
 
             Where:
@@ -37,16 +36,17 @@ public class ListCertificateAuthorities {
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create the request object.
     ListCertificateAuthoritiesRequest req =
-        ListCertificateAuthoritiesRequest.builder().maxResults(10).build();
+        ListCertificateAuthoritiesRequest.builder()
+           .maxResults(10)
+           .build();
 
-    // Retrieve a list of your CAs.
     try {
       ListCertificateAuthoritiesResponse result = client.listCertificateAuthorities(req);
       // Display the CA list.

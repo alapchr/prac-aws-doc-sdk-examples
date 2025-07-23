@@ -24,14 +24,12 @@ public class ListTags {
 
     final String usage =
         """
-
             Usage: <region> <caArn>
 
             Where:
-                region - The AWS region (e.g., us-east-1).
-                caArn - The ARN of the certificate authority.
-
-                """;
+                region - The AWS region (e.g., us-east-1)
+                caArn - The ARN of the certificate authority
+            """;
     if (args.length != 2) {
       System.out.println(usage);
       return;
@@ -44,9 +42,10 @@ public class ListTags {
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
 
     // Create a request object and set the CA ARN.
-    ListTagsRequest req = ListTagsRequest.builder().certificateAuthorityArn(caArn).build();
+    ListTagsRequest req = ListTagsRequest.builder()
+         .certificateAuthorityArn(caArn)
+         .build();
 
-    // List the tags
     try {
       ListTagsResponse result = client.listTags(req);
       // Retrieve and display the tags.
