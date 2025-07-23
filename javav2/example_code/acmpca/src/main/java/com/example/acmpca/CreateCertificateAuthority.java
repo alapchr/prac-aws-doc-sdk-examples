@@ -100,7 +100,7 @@ public class CreateCertificateAuthority {
 
     // Create a tag - method 2
     /*
-     *  Replace the parameter for KEY and VALUE with your appropriate information
+     * Replace the parameter for KEY and VALUE with your appropriate information
      */
     Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
 
