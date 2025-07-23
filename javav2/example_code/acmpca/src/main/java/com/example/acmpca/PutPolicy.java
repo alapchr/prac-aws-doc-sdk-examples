@@ -14,9 +14,8 @@ import software.amazon.awssdk.services.acmpca.model.PutPolicyRequest;
 /**
  * Before running this Java V2 code example, set up your development 
  * environment, including your credentials.
- * <p>
+ * 
  * For more information, see the following documentation topic:
- * <p>
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class PutPolicy {

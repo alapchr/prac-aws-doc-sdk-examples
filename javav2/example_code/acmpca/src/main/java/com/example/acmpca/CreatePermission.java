@@ -13,10 +13,10 @@ import software.amazon.awssdk.services.acmpca.model.CreatePermissionRequest;
 
 // snippet-start:[acmpca.java2.CreatePermission.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * 
+ * For more information, see the following documentation topic:
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class CreatePermission {
