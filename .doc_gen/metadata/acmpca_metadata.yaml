@@ -7,17 +7,7 @@ acm-pca_CreateCertificateAuthority:
           github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
-            - description: |
-                The operation creates a private subordinate certificate authority (CA). 
-                You must specify the CA configuration, the revocation configuration, the CA type, and an optional idempotency token. The CA configuration specifies the following:
-                - The name of the algorithm and key size to be used to create the CA private key
-                - The type of signing algorithm that the CA uses to sign
-                - X.500 subject information
-                The CRL configuration specifies the following:
-                - The CRL expiration period in days (the validity period of the CRL)
-                - The Amazon S3 bucket that will contain the CRL
-                - A CNAME alias for the S3 bucket that is included in certificates issued by the CA
-                If successful, this function returns the Amazon Resource Name (ARN) of the CA.
+            - description:
               snippet_tags:
                 - acmpca.java2.CreateCertificateAuthority.main
   services:
@@ -31,15 +21,7 @@ acm-pca_DescribeCertificateAuthority:
           github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
-            - description: | 
-                The operation lists information about your private certificate authority (CA). You must specify the ARN (Amazon Resource Name) of the private CA. 
-                The output contains the status of your CA. This can be any of the following:
-                - CREATING - The &AWS; Private Certificate Authority service is creating your private certificate authority.
-                - PENDING_CERTIFICATE - The certificate is pending. You must use your on-premises root or subordinate CA to sign your private CA CSR and then import it into &AWS; Private CA.
-                - ACTIVE - Your private CA is active.
-                - DISABLED - Your private CA has been disabled.
-                - FAILED - Your private CA cannot be created.
-                - DELETED - Your private CA is within the restoration period, after which it will be permanently deleted.
+            - description: 
               snippet_tags:
                 - acmpca.java2.DescribeCertificateAuthority.main
   services:
@@ -53,10 +35,7 @@ acm-pca_GetCertificateAuthorityCertificate:
           github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
-            - description: |
-                This operation retrieves the certificate and certificate chain for your private certificate authority (CA). 
-                Both the certificate and the chain are base64-encoded strings in PEM format. The chain does not include the CA certificate. 
-                Each certificate in the chain signs the one before it.
+            - description:
               snippet_tags:
                 - acmpca.java2.GetCertificateAuthorityCertificate.main
   services:
@@ -70,8 +49,7 @@ acm-pca_ListCertificateAuthorities:
           github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
-            - description: | 
-                This operation lists the private certificate authorities (CAs) that you created using the CreateCertificateAuthority operation.
+            - description: 
               snippet_tags:
                 - acmpca.java2.ListCertificateAuthorities.main
   services:
@@ -85,11 +63,7 @@ acm-pca_ListTags:
           github: javav2/example_code/acmpca
           sdkguide:
           excerpts:
-            - description: |
-                This operation lists the tags, if any, that are associated with your private CA. 
-                Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. 
-                Call the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html) 
-                operation to add one or more tags to your CA. Call the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) operation to remove tags.
+            - description: 
               snippet_tags:
                 - acmpca.java2.ListTags.main
   services:
