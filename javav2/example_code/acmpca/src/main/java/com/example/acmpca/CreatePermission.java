@@ -25,12 +25,11 @@ public class CreatePermission {
 
     final String usage =
         """
-
             Usage: <region> <caArn>
 
             Where:
-                region - The AWS region (e.g., us-east-1).
-                caArn - The ARN of the certificate authority.
+                region - The AWS region (e.g., us-east-1)
+                caArn - The ARN of the certificate authority
             """;
 
     if (args.length != 2) {
@@ -38,15 +37,15 @@ public class CreatePermission {
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String caArn = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Set the permissions to give the user.
     /*
-     * Change permissions values to your specificed permissions
+     * Change permissions values to your specified permissions
      * Ex. "ISSUE_CERTIFICATE"
      */
     List<ActionType> permissions = new ArrayList<>();
@@ -56,19 +55,18 @@ public class CreatePermission {
 
     // Create a request object
     /*
-     * Change parameters to match the principal you want
+     * Set the AWS service principal
      */
     CreatePermissionRequest req =
         CreatePermissionRequest.builder()
-            .certificateAuthorityArn(caArn) // Set certificate authority ARN.
-            .principal("acm.amazonaws.com") // Set the AWS service principal.
+            .certificateAuthorityArn(caArn) 
+            .principal("acm.amazonaws.com") 
             .actions(permissions)
             .build();
 
-    // Create a result object.
     try {
       client.createPermission(req);
-      System.out.println("Successfully created a permission");
+      System.out.println("Sucessfully created permissions!");
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }

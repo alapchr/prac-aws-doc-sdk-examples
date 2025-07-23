@@ -13,3 +13,86 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
+acm-pca_CreatePermission:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.CreatePermission.main
+  services:
+     acm-pca: {CreatePermission}
+
+acm-pca_DeletePermission:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.DeletePermission.main
+  services:
+     acm-pca: {DeletePermission}
+
+acm-pca_DeletePolicy:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.DeletePolicy.main
+  services:
+     acm-pca: {DeletePolicy}
+
+acm-pca_GetPolicy:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.GetPolicy.main
+  services:
+     acm-pca: {GetPolicy}
+
+acm-pca_ListPermissions:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.ListPermissions.main
+  services:
+     acm-pca: {ListPermissions}
+
+acm-pca_PutPolicy:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.PutPolicy.main
+  services:
+     acm-pca: {PutPolicy}

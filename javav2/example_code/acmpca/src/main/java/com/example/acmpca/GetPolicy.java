@@ -11,10 +11,11 @@ import software.amazon.awssdk.services.acmpca.model.GetPolicyResponse;
 
 // snippet-start:[acmpca.java2.GetPolicy.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * <p>
+ * For more information, see the following documentation topic:
+ * <p>
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class GetPolicy {
@@ -27,7 +28,7 @@ public class GetPolicy {
             Usage: <region> <caArn>
 
             Where:
-                region - The AWS region (e.g., us-east-1).
+                region - The AWS region (e.g., us-east-1)
                 resourceArn - The ARN of your Certificate Authority
             """;
 
@@ -36,25 +37,24 @@ public class GetPolicy {
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String resourceArn = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create the request object.
     GetPolicyRequest req =
         GetPolicyRequest.builder()
-            .resourceArn(resourceArn) // Set the resource ARN.
+            .resourceArn(resourceArn)
             .build();
 
-    // Retrieve a list of your CAs.
     try {
       GetPolicyResponse result = client.getPolicy(req);
       // Display the policy.
       System.out.println(result.policy());
     } catch (AcmPcaException ex) {
-       System.err.println(ex.awsErrorDetails().errorMessage());
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }

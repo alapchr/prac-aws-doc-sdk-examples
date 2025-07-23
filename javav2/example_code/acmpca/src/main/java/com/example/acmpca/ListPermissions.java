@@ -8,13 +8,15 @@ import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.ListPermissionsRequest;
 import software.amazon.awssdk.services.acmpca.model.ListPermissionsResponse;
+import software.amazon.awssdk.services.acmpca.model.Permission;
 
 // snippet-start:[acmpca.java2.ListPermissions.main]
 /**
- * Before running this Java V2 code example, set up your development environment, including your
- * credentials.
- *
- * <p>For more information, see the following documentation topic:
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * <p>
+ * For more information, see the following documentation topic:
+ * <p>
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class ListPermissions {
@@ -36,37 +38,34 @@ public class ListPermissions {
       return;
     }
 
-    String regionName = args[0];
+    String region = args[0];
     String caArn = args[1];
 
     // Create a client that you can use to make requests.
-    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(regionName)).build();
+    AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Create a request object and set the CA ARN.
     ListPermissionsRequest req =
-        ListPermissionsRequest.builder().certificateAuthorityArn(caArn).build();
+        ListPermissionsRequest.builder()
+            .certificateAuthorityArn(caArn)
+            .build();
 
-    // List the permissions.
     try {
       ListPermissionsResponse result = client.listPermissions(req);
-
       // Retrieve and display the permissions.
       if (result.permissions().isEmpty()) {
         System.out.println("No permissions found.");
       } else {
-        result
-            .permissions()
-            .forEach(
-                permission -> {
-                  System.out.println("Arn: " + permission.certificateAuthorityArn());
-                  System.out.println("Created At: " + permission.createdAt());
-                  System.out.println("Princpal: " + permission.principal());
-                  System.out.println("Permissions: { " + permission.actions() + " }");
-                  System.out.println("SourceAccount: " + permission.sourceAccount());
-                });
+          for (Permission permission : result.permissions()) {
+              System.out.println("Arn: " + permission.certificateAuthorityArn());
+              System.out.println("Created At: " + permission.createdAt());
+              System.out.println("Principal: " + permission.principal());
+              System.out.println("Permissions: { " + permission.actions() + " }");
+              System.out.println("SourceAccount: " + permission.sourceAccount());
+          }
       }
     } catch (AcmPcaException ex) {
-       System.err.println(ex.awsErrorDetails().errorMessage());
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
   }
 }
