@@ -27,8 +27,8 @@ public class ListPermissions {
             Usage: <region> <caArn>
 
             Where:
-                region - The AWS region (e.g., us-east-1).
-                caArn - The ARN of the certificate authority.
+                region - The AWS region (e.g., us-east-1)
+                caArn - The ARN of the certificate authority
             """;
 
     if (args.length != 2) {

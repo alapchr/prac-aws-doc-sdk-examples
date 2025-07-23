@@ -28,7 +28,7 @@ public class PutPolicy {
 
             Where:
                 region - The AWS region (e.g., us-east-1)
-                resourceArn - The ARN of your Certificate Authority
+                resourceArn - The ARN of your certificate authority
             """;
 
     if (args.length != 2) {
