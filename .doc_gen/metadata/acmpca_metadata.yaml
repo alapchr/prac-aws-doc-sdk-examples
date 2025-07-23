@@ -34,8 +34,8 @@ acm-pca_DescribeCertificateAuthority:
             - description: | 
                 The operation lists information about your private certificate authority (CA). You must specify the ARN (Amazon Resource Name) of the private CA. 
                 The output contains the status of your CA. This can be any of the following:
-                - CREATING - The AWS Private Certificate Authority service is creating your private certificate authority.
-                - PENDING_CERTIFICATE - The certificate is pending. You must use your on-premises root or subordinate CA to sign your private CA CSR and then import it into AWS Private CA.
+                - CREATING - The &AWS Private Certificate Authority service is creating your private certificate authority.
+                - PENDING_CERTIFICATE - The certificate is pending. You must use your on-premises root or subordinate CA to sign your private CA CSR and then import it into &AWS Private CA.
                 - ACTIVE - Your private CA is active.
                 - DISABLED - Your private CA has been disabled.
                 - FAILED - Your private CA cannot be created.
