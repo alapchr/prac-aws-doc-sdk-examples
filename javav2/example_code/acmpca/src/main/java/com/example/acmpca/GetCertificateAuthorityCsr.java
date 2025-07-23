@@ -52,8 +52,8 @@ public class GetCertificateAuthorityCsr {
     try (AcmPcaWaiter waiter = client.waiter()) {
       waiter.waitUntilCertificateAuthorityCSRCreated(
           b -> b.certificateAuthorityArn(req.certificateAuthorityArn()).build());
-    } catch (AcmPcaException e) {
-      System.out.println("Error: " + e.getMessage());
+    } catch (AcmPcaException ex) {
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
 
     try {

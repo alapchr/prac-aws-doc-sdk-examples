@@ -54,10 +54,9 @@ public class GetCertificate {
     // Create waiter to wait on successful creation of the certificate file.
     try (AcmPcaWaiter waiter = client.waiter()) {
       waiter.waitUntilCertificateIssued(
-          b -> b.certificateArn(req.certificateArn())
-                  .certificateAuthorityArn(req.certificateAuthorityArn()));
+          b -> b.certificateArn(req.certificateArn()).certificateAuthorityArn(req.certificateAuthorityArn()).build());
     } catch (AcmPcaException ex) {
-       System.err.println(ex.awsErrorDetails().errorMessage());
+      System.err.println(ex.awsErrorDetails().errorMessage());
     }
 
     try {

@@ -17,6 +17,7 @@ import software.amazon.awssdk.services.acmpca.model.DeleteCertificateAuthorityRe
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class DeleteCertificateAuthority {
+  
   public static void main(String[] args) throws Exception {
 
     final String usage =
