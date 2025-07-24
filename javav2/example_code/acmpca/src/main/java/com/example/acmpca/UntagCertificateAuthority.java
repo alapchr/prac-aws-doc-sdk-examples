@@ -25,7 +25,7 @@ public class UntagCertificateAuthority {
 
     final String usage = 
         """
-           Usage: <regionName> <caArn> <tagRemoval>
+           Usage: <region> <caArn> <tagRemoval>
 
            Where:
                region - The AWS region (e.g. us-east-1)
