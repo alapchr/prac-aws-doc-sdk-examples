@@ -22,12 +22,9 @@ public class PCATests {
     @Order(1)
     public void testCreateCertificateAuthority() {
         assertDoesNotThrow(() -> {
-            // Test invalid arguments - should show usage and not crash
-            CreateCertificateAuthority.main(new String[]{"us-east-1"}); // Missing bucket name
-            CreateCertificateAuthority.main(new String[]{}); // No arguments
-            CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket", "extra-arg"}); // Too many arguments
-            
-            // Test valid arguments - should work correctly
+            CreateCertificateAuthority.main(new String[]{"us-east-1"}); 
+            CreateCertificateAuthority.main(new String[]{}); 
+            CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket", "extra-arg"}); 
             CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket"});
         });
         logger.info("Test 1 passed");
@@ -37,14 +34,11 @@ public class PCATests {
     @Order(2)
     public void testDescribeCertificateAuthority() {
         assertDoesNotThrow(() -> {
-            // Test invalid arguments - should show usage and not crash
-            DescribeCertificateAuthority.main(new String[]{"us-east-1"}); // Missing CA ARN
-            DescribeCertificateAuthority.main(new String[]{}); // No arguments
+            DescribeCertificateAuthority.main(new String[]{"us-east-1"}); 
+            DescribeCertificateAuthority.main(new String[]{}); 
             DescribeCertificateAuthority.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
-                "extra-arg"}); // Too many arguments
-            
-            // Test valid arguments - should work correctly
+                "extra-arg"}); 
             DescribeCertificateAuthority.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
         });
@@ -55,11 +49,8 @@ public class PCATests {
     @Order(3)
     public void testListCertificateAuthorities() {
         assertDoesNotThrow(() -> {
-            // Test invalid arguments - should show usage and not crash
-            ListCertificateAuthorities.main(new String[]{}); // Missing region
-            ListCertificateAuthorities.main(new String[]{"us-east-1", "extra-arg"}); // Too many arguments
-            
-            // Test valid arguments - should work correctly
+            ListCertificateAuthorities.main(new String[]{}); 
+            ListCertificateAuthorities.main(new String[]{"us-east-1", "extra-arg"}); 
             ListCertificateAuthorities.main(new String[]{"us-east-1"});
         });
         logger.info("Test 3 passed");
@@ -69,14 +60,11 @@ public class PCATests {
     @Order(4)
     public void testGetCertificateAuthorityCertificate() {
         assertDoesNotThrow(() -> {
-            // Test invalid arguments - should show usage and not crash
-            GetCertificateAuthorityCertificate.main(new String[]{"us-east-1"}); // Missing CA ARN
-            GetCertificateAuthorityCertificate.main(new String[]{}); // No arguments
+            GetCertificateAuthorityCertificate.main(new String[]{"us-east-1"}); 
+            GetCertificateAuthorityCertificate.main(new String[]{}); 
             GetCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
-                "extra-arg"}); // Too many arguments
-            
-            // Test valid arguments - should work correctly
+                "extra-arg"}); 
             GetCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
         });
@@ -87,14 +75,11 @@ public class PCATests {
     @Order(5)
     public void testListTags() {
         assertDoesNotThrow(() -> {
-            // Test invalid arguments - should show usage and not crash
-            ListTags.main(new String[]{"us-east-1"}); // Missing CA ARN
-            ListTags.main(new String[]{}); // No arguments
+            ListTags.main(new String[]{"us-east-1"}); 
+            ListTags.main(new String[]{}); 
             ListTags.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
-                "extra-arg"}); // Too many arguments
-            
-            // Test valid arguments - should work correctly
+                "extra-arg"}); 
             ListTags.main(new String[]{"us-east-1", 
                 "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
         });
