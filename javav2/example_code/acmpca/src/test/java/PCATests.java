@@ -1,96 +1,103 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import com.example.acmpca.CreateCertificateAuthority;
+import com.example.acmpca.DescribeCertificateAuthority;
+import com.example.acmpca.GetCertificateAuthorityCertificate;
+import com.example.acmpca.ListCertificateAuthorities;
+import com.example.acmpca.ListTags;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.*;
-import software.amazon.awssdk.services.acmpca.model.InvalidPolicyException;
-import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PCATests {
+    private static final Logger logger = LoggerFactory.getLogger(PCATests.class);
 
-  @Mock private AcmPcaClient client;
-
-  // Sets up all mock objects to ensure that they are ready to use
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-  }
-
-  @Test
-  void testCreateCA() {
-
-    // Fake arn expected
-    String expectedArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca-id";
-
-    CreateCertificateAuthorityResponse mockResponse =
-        CreateCertificateAuthorityResponse.builder().certificateAuthorityArn(expectedArn).build();
-
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenReturn(mockResponse);
-
-    CreateCertificateAuthorityResponse rootResult =
-        client.createCertificateAuthority(
-            CreateCertificateAuthorityRequest.builder()
-                .certificateAuthorityType(CertificateAuthorityType.ROOT)
-                .build());
-
-    CreateCertificateAuthorityResponse subResult =
-        client.createCertificateAuthority(
-            CreateCertificateAuthorityRequest.builder()
-                .certificateAuthorityType(CertificateAuthorityType.SUBORDINATE)
-                .build());
-
-    assertNotNull(rootResult);
-    assertNotNull(subResult);
-    assertEquals(expectedArn, rootResult.certificateAuthorityArn());
-    assertEquals(expectedArn, subResult.certificateAuthorityArn());
-    verify(client, times(2))
-        .createCertificateAuthority(any(CreateCertificateAuthorityRequest.class));
-  }
-
-  @Test
-  void testCreateCA_InvalidArgsException() {
-    // Test exception handling
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(InvalidArgsException.builder().message("Invalid arguments").build());
-
-    // Verify exception is thrown
-    assertThrows(
-        InvalidArgsException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(1)
+    public void testCreateCertificateAuthority() {
+        assertDoesNotThrow(() -> {
+            // Test invalid arguments - should show usage and not crash
+            CreateCertificateAuthority.main(new String[]{"us-east-1"}); // Missing bucket name
+            CreateCertificateAuthority.main(new String[]{}); // No arguments
+            CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket", "extra-arg"}); // Too many arguments
+            
+            // Test valid arguments - should work correctly
+            CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket"});
         });
-  }
+        logger.info("Test 1 passed");
+    }
 
-  @Test
-  void testCreateCA_InvalidPolicyException() {
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(InvalidPolicyException.builder().message("Invalid policy").build());
-
-    assertThrows(
-        InvalidPolicyException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(2)
+    public void testDescribeCertificateAuthority() {
+        assertDoesNotThrow(() -> {
+            // Test invalid arguments - should show usage and not crash
+            DescribeCertificateAuthority.main(new String[]{"us-east-1"}); // Missing CA ARN
+            DescribeCertificateAuthority.main(new String[]{}); // No arguments
+            DescribeCertificateAuthority.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                "extra-arg"}); // Too many arguments
+            
+            // Test valid arguments - should work correctly
+            DescribeCertificateAuthority.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
         });
-  }
+        logger.info("Test 2 passed");
+    }
 
-  @Test
-  void testCreateCA_LimitExceededException() {
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(LimitExceededException.builder().message("Limit exceeded").build());
-
-    assertThrows(
-        LimitExceededException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(3)
+    public void testListCertificateAuthorities() {
+        assertDoesNotThrow(() -> {
+            // Test invalid arguments - should show usage and not crash
+            ListCertificateAuthorities.main(new String[]{}); // Missing region
+            ListCertificateAuthorities.main(new String[]{"us-east-1", "extra-arg"}); // Too many arguments
+            
+            // Test valid arguments - should work correctly
+            ListCertificateAuthorities.main(new String[]{"us-east-1"});
         });
-  }
+        logger.info("Test 3 passed");
+    }
+
+    @Test
+    @Order(4)
+    public void testGetCertificateAuthorityCertificate() {
+        assertDoesNotThrow(() -> {
+            // Test invalid arguments - should show usage and not crash
+            GetCertificateAuthorityCertificate.main(new String[]{"us-east-1"}); // Missing CA ARN
+            GetCertificateAuthorityCertificate.main(new String[]{}); // No arguments
+            GetCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                "extra-arg"}); // Too many arguments
+            
+            // Test valid arguments - should work correctly
+            GetCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+        });
+        logger.info("Test 4 passed");
+    }
+
+    @Test
+    @Order(5)
+    public void testListTags() {
+        assertDoesNotThrow(() -> {
+            // Test invalid arguments - should show usage and not crash
+            ListTags.main(new String[]{"us-east-1"}); // Missing CA ARN
+            ListTags.main(new String[]{}); // No arguments
+            ListTags.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                "extra-arg"}); // Too many arguments
+            
+            // Test valid arguments - should work correctly
+            ListTags.main(new String[]{"us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+        });
+        logger.info("Test 5 passed");
+    }
 }
