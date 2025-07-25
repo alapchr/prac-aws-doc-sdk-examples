@@ -62,7 +62,6 @@ public class GetCertificate {
     try {
       // Retrieve the certificate and certificate chain.
       GetCertificateResponse result = client.getCertificate(req);
-      // Get the certificate and certificate chain and display the result.
       String cert = result.certificate();
       System.out.println(cert);
     } catch (AcmPcaException ex) {

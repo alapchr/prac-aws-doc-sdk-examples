@@ -59,7 +59,8 @@ public class IssueCertificate {
 
       /*
        * Create a certificate request with all required parameters.
-       * Replace 'EndEntityCertificate/V1' with your proper templateArn argument (e.g. arn:aws:acm-pca:::template/RootCACertificate/V1)
+       * Replace 'EndEntityCertificate/V1' with your proper templateArn argument 
+       * (e.g. arn:aws:acm-pca:::template/RootCACertificate/V1)
        */
       IssueCertificateRequest request =
           IssueCertificateRequest.builder()

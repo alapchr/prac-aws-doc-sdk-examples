@@ -37,7 +37,7 @@ public class DeleteCertificateAuthority {
 
     String region = args[0];
     String caArn = args[1];
-    int restorePeriod = args.length == 3 ? Integer.parseInt(args[2]) : 30; // Default restoration period: 30 days
+    int restorePeriod = args.length == 3 ? Integer.parseInt(args[2]) : 30; 
 
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();

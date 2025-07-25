@@ -45,13 +45,13 @@ public class TagCertificateAuthorities {
 
     // Create a tag - method 1
     /*
-     * Replace the parameter for KEY and VALUE with your appropriate information
+     * Replace the parameter for 'KEY' and 'VALUE' with your appropriate information
      */
     Tag tag1 = Tag.builder().key("PrivateCA").value("Sample").build();
 
     // Create a tag - method 2
     /*
-     * Replace the parameter for KEY and VALUE with your appropriate information
+     * Replace the parameter for 'KEY' and 'VALUE' with your appropriate information
      */
     Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
 

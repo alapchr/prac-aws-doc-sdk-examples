@@ -49,11 +49,11 @@ public class UntagCertificateAuthority {
     List<Tag> tags = new ArrayList<>();
     
     if (tagRemoval.equalsIgnoreCase("KeyOnly")) {
-        // Replace the parameter for KEY your appropriate information
+        // Replace the parameter for 'KEY' your appropriate information
         Tag tagKeyOnly = Tag.builder().key("Administrator").build();
         tags.add(tagKeyOnly);
     } else if (tagRemoval.equalsIgnoreCase("Key&Value")) {
-        // Replace the parameter for KEY and VALUE with your appropriate information
+        // Replace the parameter for 'KEY' and 'VALUE' with your appropriate information
         Tag tagKeyValue = Tag.builder().key("PrivateCA").value("WebServices").build();
         tags.add(tagKeyValue);
     }

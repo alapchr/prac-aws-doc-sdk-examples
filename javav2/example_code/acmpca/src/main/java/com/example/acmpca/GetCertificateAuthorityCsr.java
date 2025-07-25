@@ -42,7 +42,7 @@ public class GetCertificateAuthorityCsr {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Create the request object and set the CA ARN.
+    // Create the request object.
     GetCertificateAuthorityCsrRequest req =
         GetCertificateAuthorityCsrRequest.builder()
             .certificateAuthorityArn(caArn)
