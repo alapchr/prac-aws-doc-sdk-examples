@@ -3,9 +3,10 @@
 
 package com.example.acmpca;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
@@ -24,14 +25,6 @@ import software.amazon.awssdk.services.acmpca.model.Validity;
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class IssueCertificate {
-
-  public static ByteBuffer stringToByteBuffer(final String string) {
-    if (Objects.isNull(string)) {
-      return null;
-    }
-    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
-    return ByteBuffer.wrap(bytes);
-  }
 
   public static void main(String[] args) throws Exception {
 
@@ -56,17 +49,16 @@ public class IssueCertificate {
      AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     try {
-      // Specify the certificate signing request (CSR) for the certificate to be signed and issued.
-      String strCSR =
-      "-----BEGIN CERTIFICATE REQUEST-----\n" + 
-      "base64-encoded certificate\n" +
-      "-----END CERTIFICATE REQUEST-----\n";
+      /*
+       * Read the certificate signing request (CSR) from ca.csr file
+       * This assumes that a CSR was added to a file named ca.csr that is stored somewhere
+       */
+      String strCSR = Files.readString(Paths.get("ca.csr"), StandardCharsets.UTF_8);
 
       SdkBytes csrSdkBytes = SdkBytes.fromUtf8String(strCSR);
 
-      // Create a certificate request with all required parameters
       /*
-       * Specify the template for the issued certificate
+       * Create a certificate request with all required parameters.
        * Replace 'EndEntityCertificate/V1' with your proper templateArn argument (e.g. arn:aws:acm-pca:::template/RootCACertificate/V1)
        */
       IssueCertificateRequest request =
@@ -79,13 +71,14 @@ public class IssueCertificate {
               .csr(csrSdkBytes)
               .build();
 
-      // Issue the certificate.
       IssueCertificateResponse result = client.issueCertificate(request);
       // Retrieve and display the certificate ARN.
       String arn = result.certificateArn();
       System.out.println("Certificate ARN: " + arn);
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
+    } catch (IOException ex) {
+      System.err.println("Error reading ca.csr file: " + ex.getMessage());
     }
   }
 }
