@@ -42,10 +42,7 @@ public class PutPolicy {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Import policy
-    /* 
-    * Note: This code assumes the file "Policy.json" is in a folder titled policy
-    */ 
+    // Import policy (this code assumes the file "Policy.json" is in a folder titled policy). 
     String policy =
         new String(Files.readAllBytes(Paths.get("policy", "Policy.json")));
 

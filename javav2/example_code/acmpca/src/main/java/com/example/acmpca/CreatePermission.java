@@ -43,20 +43,17 @@ public class CreatePermission {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Set the permissions to give the user.
     /*
+     * Set the permissions to give the user.
      * Change permissions values to your specified permissions
-     * Ex. "ISSUE_CERTIFICATE"
+     * Ex. ActionType.ISSUE_CERTIFICATE, ActionType.GET_CERTIFICATE
      */
     List<ActionType> permissions = new ArrayList<>();
     permissions.add(ActionType.ISSUE_CERTIFICATE);
     permissions.add(ActionType.GET_CERTIFICATE);
     permissions.add(ActionType.LIST_PERMISSIONS);
-
-    // Create a request object
-    /*
-     * Set the AWS service principal
-     */
+    
+    // Create a request and set the AWS principal to your specified AWS principal.
     CreatePermissionRequest req =
         CreatePermissionRequest.builder()
             .certificateAuthorityArn(caArn) 
@@ -66,7 +63,7 @@ public class CreatePermission {
 
     try {
       client.createPermission(req);
-      System.out.println("Sucessfully created permissions!");
+      System.out.println("Successfully created permissions!");
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }

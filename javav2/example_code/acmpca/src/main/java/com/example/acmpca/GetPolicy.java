@@ -23,7 +23,6 @@ public class GetPolicy {
 
     final String usage =
         """
-
             Usage: <region> <caArn>
 
             Where:

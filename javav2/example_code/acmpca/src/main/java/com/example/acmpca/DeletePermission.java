@@ -40,10 +40,7 @@ public class DeletePermission {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Create a request object
-    /*
-     * Set the AWS service principal
-     */
+    // Create a request object and set the AWS service principal.
     DeletePermissionRequest req =
         DeletePermissionRequest.builder()
             .certificateAuthorityArn(caArn) 
