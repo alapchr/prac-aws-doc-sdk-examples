@@ -37,12 +37,12 @@ public class DeleteCertificateAuthority {
 
     String region = args[0];
     String caArn = args[1];
-    int restorePeriod = args.length == 3 ? Integer.parseInt(args[2]) : 30; 
+    Integer restorePeriod = args.length == 3 ? Integer.parseInt(args[2]) : null; 
 
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Create a request object and set the ARN of the private CA to delete.
+    // Create a request object.
     DeleteCertificateAuthorityRequest req =
         DeleteCertificateAuthorityRequest.builder()
             .certificateAuthorityArn(caArn)

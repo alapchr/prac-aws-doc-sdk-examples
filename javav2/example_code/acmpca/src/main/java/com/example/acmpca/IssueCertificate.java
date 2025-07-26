@@ -54,7 +54,6 @@ public class IssueCertificate {
        * This assumes that a CSR was added to a file named ca.csr that is stored somewhere
        */
       String strCSR = Files.readString(Paths.get("ca.csr"), StandardCharsets.UTF_8);
-
       SdkBytes csrSdkBytes = SdkBytes.fromUtf8String(strCSR);
 
       /*
