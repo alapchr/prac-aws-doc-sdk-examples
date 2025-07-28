@@ -13,3 +13,86 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
+acm-pca_CreateCertificateAuthorityAuditReport:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.CreateCertificateAuthorityAuditReport.main
+  services:
+     acm-pca: {CreateCertificateAuthorityAuditReport}
+
+acm-pca_DescribeCertificateAuthorityAuditReport:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.DescribeCertificateAuthorityAuditReport.main
+  services:
+     acm-pca: {DescribeCertificateAuthorityAuditReport}
+
+acm-pca_ImportCertificateAuthorityCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.ImportCertificateAuthorityCertificate.main
+  services:
+     acm-pca: {ImportCertificateAuthorityCertificate}
+
+acm-pca_RestoreCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.RestoreCertificateAuthority.main
+  services:
+     acm-pca: {RestoreCertificateAuthority}
+
+acm-pca_RevokeCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.RevokeCertificate.main
+  services:
+     acm-pca: {RevokeCertificate}
+
+acm-pca_UpdateCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.UpdateCertificateAuthority.main
+  services:
+     acm-pca: {UpdateCertificateAuthority}
