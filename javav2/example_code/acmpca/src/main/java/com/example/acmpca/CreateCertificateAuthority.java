@@ -89,24 +89,14 @@ public class CreateCertificateAuthority {
            .build();
 
     // Define a certificate authority type: ROOT or SUBORDINATE.
-    CertificateAuthorityType CAtype = CertificateAuthorityType.ROOT;
+    CertificateAuthorityType CAtype = CertificateAuthorityType.SUBORDINATE;
 
-    // Create a tag - method 1
-    /*
-     * Replace the parameter for KEY and VALUE with your appropriate information
-     */
-    Tag tag1 = Tag.builder().key("PrivateCA").value("Sample").build();
-
-    // Create a tag - method 2
-    /*
-     * Replace the parameter for KEY and VALUE with your appropriate information
-     */
-    Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
+    // Create a tag - Replace the parameter for KEY and VALUE with your appropriate information.
+    Tag tag = Tag.builder().key("Purpose").value("WebServices").build();
 
     // Add the tags to a collection.
     List<Tag> tags = new ArrayList<>();
-    tags.add(tag1);
-    tags.add(tag2);
+    tags.add(tag);
 
     // Create the request object.
     CreateCertificateAuthorityRequest req =
