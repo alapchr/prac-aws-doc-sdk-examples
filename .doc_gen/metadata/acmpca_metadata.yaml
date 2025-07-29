@@ -13,20 +13,6 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
-acm-pca_DescribeCertificateAuthority:
-  languages:
-    Java:
-      versions:
-        - sdk_version: 2
-          github: javav2/example_code/acmpca
-          sdkguide:
-          excerpts:
-            - description: 
-              snippet_tags:
-                - acmpca.java2.DescribeCertificateAuthority.main
-  services:
-     acm-pca: {DescribeCertificateAuthority}
-
 acm-pca_CreatePermission:
   languages:
     Java:
@@ -40,6 +26,20 @@ acm-pca_CreatePermission:
                 - acmpca.java2.CreatePermission.main
   services:
      acm-pca: {CreatePermission}
+
+acm-pca_DescribeCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.DescribeCertificateAuthority.main
+  services:
+     acm-pca: {DescribeCertificateAuthority}
 
 acm-pca_DeletePermission:
   languages:
@@ -69,6 +69,20 @@ acm-pca_DeletePolicy:
   services:
      acm-pca: {DeletePolicy}
 
+acm-pca_GetCertificateAuthorityCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.GetCertificateAuthorityCertificate.main
+  services:
+     acm-pca: {GetCertificateAuthorityCertificate}
+
 acm-pca_GetPolicy:
   languages:
     Java:
@@ -96,6 +110,34 @@ acm-pca_ListPermissions:
                 - acmpca.java2.ListPermissions.main
   services:
      acm-pca: {ListPermissions}
+
+acm-pca_ListCertificateAuthorities:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.ListCertificateAuthorities.main
+  services:
+     acm-pca: {ListCertificateAuthorities}
+     
+acm-pca_ListTags:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.ListTags.main
+  services:
+     acm-pca: {ListTags}
 
 acm-pca_PutPolicy:
   languages:
