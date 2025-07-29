@@ -42,18 +42,18 @@ public class ImportCertificateAuthorityCertificate {
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
     // Set the signed certificate.
-    String strCertificate =
+    String certificateStr =
           "-----BEGIN CERTIFICATE-----\n" +
           "base64-encoded certificate\n" +
           "-----END CERTIFICATE-----\n";
-    SdkBytes certSdkBytes = SdkBytes.fromUtf8String(strCertificate);
+    SdkBytes certSdkBytes = SdkBytes.fromUtf8String(certificateStr);
 
     // Set the certificate chain.
-    String strCertificateChain =
+    String certificateStrChain =
           "-----BEGIN CERTIFICATE-----\n" +
           "base64-encoded certificate\n" +
           "-----END CERTIFICATE-----\n";
-    SdkBytes chainSdkBytes = SdkBytes.fromUtf8String(strCertificateChain);
+    SdkBytes chainSdkBytes = SdkBytes.fromUtf8String(certificateStrChain);
 
     // Create a request object with required parameters.
     ImportCertificateAuthorityCertificateRequest req =

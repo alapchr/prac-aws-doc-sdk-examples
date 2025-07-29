@@ -52,7 +52,7 @@ public class UpdateCertificateAuthority {
         CrlConfiguration.builder()
             .enabled(true)
             .expirationInDays(365) 
-            .customCname("your-custom-name")
+            .customCname("your-custom-cname")
             .s3BucketName("your-bucket-name")
             .build();
     /*

@@ -58,8 +58,8 @@ public class CreateCertificateAuthorityAuditReport {
       String ID = result.auditReportId();
       String S3Key = result.s3Key();
 
-      System.out.println(ID);
-      System.out.println(S3Key);
+      System.out.println("Certificate Authority Audit Report ID:" + ID);
+      System.out.println("S3 Object Key:" + S3Key);
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     } 
