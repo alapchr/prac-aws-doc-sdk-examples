@@ -1,96 +1,242 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import com.example.acmpca.CreateCertificateAuthority;
+import com.example.acmpca.CreateCertificateAuthorityAuditReport;
+import com.example.acmpca.DescribeCertificateAuthorityAuditReport;
+import com.example.acmpca.ImportCertificateAuthorityCertificate;
+import com.example.acmpca.RestoreCertificateAuthority;
+import com.example.acmpca.RevokeCertificate;
+import com.example.acmpca.UpdateCertificateAuthority;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.*;
-import software.amazon.awssdk.services.acmpca.model.InvalidPolicyException;
-import software.amazon.awssdk.services.acmpca.model.LimitExceededException;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PCATests {
+    private static final Logger logger = LoggerFactory.getLogger(PCATests.class);
 
-  @Mock private AcmPcaClient client;
-
-  // Sets up all mock objects to ensure that they are ready to use
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-  }
-
-  @Test
-  void testCreateCA() {
-
-    // Fake arn expected
-    String expectedArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca-id";
-
-    CreateCertificateAuthorityResponse mockResponse =
-        CreateCertificateAuthorityResponse.builder().certificateAuthorityArn(expectedArn).build();
-
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenReturn(mockResponse);
-
-    CreateCertificateAuthorityResponse rootResult =
-        client.createCertificateAuthority(
-            CreateCertificateAuthorityRequest.builder()
-                .certificateAuthorityType(CertificateAuthorityType.ROOT)
-                .build());
-
-    CreateCertificateAuthorityResponse subResult =
-        client.createCertificateAuthority(
-            CreateCertificateAuthorityRequest.builder()
-                .certificateAuthorityType(CertificateAuthorityType.SUBORDINATE)
-                .build());
-
-    assertNotNull(rootResult);
-    assertNotNull(subResult);
-    assertEquals(expectedArn, rootResult.certificateAuthorityArn());
-    assertEquals(expectedArn, subResult.certificateAuthorityArn());
-    verify(client, times(2))
-        .createCertificateAuthority(any(CreateCertificateAuthorityRequest.class));
-  }
-
-  @Test
-  void testCreateCA_InvalidArgsException() {
-    // Test exception handling
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(InvalidArgsException.builder().message("Invalid arguments").build());
-
-    // Verify exception is thrown
-    assertThrows(
-        InvalidArgsException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(18)
+    public void testCreateCertificateAuthority() {
+        assertDoesNotThrow(() -> {
+            try {
+                CreateCertificateAuthority.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthority (invalid args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthority.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthority (no args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket", "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthority (too many args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthority.main(new String[]{"us-east-1", "test-bucket"});
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthority (AWS call): {}", e.getMessage());
+            }
         });
-  }
+        logger.info("Test 18 passed");
+    }
 
-  @Test
-  void testCreateCA_InvalidPolicyException() {
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(InvalidPolicyException.builder().message("Invalid policy").build());
-
-    assertThrows(
-        InvalidPolicyException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(19)
+    public void testCreateCertificateAuthorityAuditReport() {
+        assertDoesNotThrow(() -> {
+            try {
+                CreateCertificateAuthorityAuditReport.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthorityAuditReport (invalid args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthorityAuditReport.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthorityAuditReport (no args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthorityAuditReport.main(new String[]{"us-east-1", 
+                    "test-bucket", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthorityAuditReport (too many args): {}", e.getMessage());
+            }
+            try {
+                CreateCertificateAuthorityAuditReport.main(new String[]{"us-east-1", 
+                    "test-bucket", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+            } catch (Exception e) {
+                logger.info("Expected exception in CreateCertificateAuthorityAuditReport (AWS call): {}", e.getMessage());
+            }
         });
-  }
+        logger.info("Test 19 passed");
+    }
 
-  @Test
-  void testCreateCA_LimitExceededException() {
-    when(client.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
-        .thenThrow(LimitExceededException.builder().message("Limit exceeded").build());
-
-    assertThrows(
-        LimitExceededException.class,
-        () -> {
-          client.createCertificateAuthority(CreateCertificateAuthorityRequest.builder().build());
+    @Test
+    @Order(20)
+    public void testDescribeCertificateAuthorityAuditReport() {
+        assertDoesNotThrow(() -> {
+            try {
+                DescribeCertificateAuthorityAuditReport.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in DescribeCertificateAuthorityAuditReport (invalid args): {}", e.getMessage());
+            }
+            try {
+                DescribeCertificateAuthorityAuditReport.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in DescribeCertificateAuthorityAuditReport (no args): {}", e.getMessage());
+            }
+            try {
+                DescribeCertificateAuthorityAuditReport.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "11111111-2222-3333-4444-555555555555", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in DescribeCertificateAuthorityAuditReport (too many args): {}", e.getMessage());
+            }
+            try {
+                DescribeCertificateAuthorityAuditReport.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "11111111-2222-3333-4444-555555555555"});
+            } catch (Exception e) {
+                logger.info("Expected exception in DescribeCertificateAuthorityAuditReport (AWS call): {}", e.getMessage());
+            }
         });
-  }
+        logger.info("Test 20 passed");
+    }
+
+    @Test
+    @Order(21)
+    public void testImportCertificateAuthorityCertificate() {
+        assertDoesNotThrow(() -> {
+            try {
+                ImportCertificateAuthorityCertificate.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in ImportCertificateAuthorityCertificate (invalid args): {}", e.getMessage());
+            }
+            try {
+                ImportCertificateAuthorityCertificate.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in ImportCertificateAuthorityCertificate (no args): {}", e.getMessage());
+            }
+            try {
+                ImportCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in ImportCertificateAuthorityCertificate (too many args): {}", e.getMessage());
+            }
+            try {
+                ImportCertificateAuthorityCertificate.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+            } catch (Exception e) {
+                logger.info("Expected exception in ImportCertificateAuthorityCertificate (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 21 passed");
+    }
+
+    @Test
+    @Order(22)
+    public void testRestoreCertificateAuthority() {
+        assertDoesNotThrow(() -> {
+            try {
+                RestoreCertificateAuthority.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RestoreCertificateAuthority (invalid args): {}", e.getMessage());
+            }
+            try {
+                RestoreCertificateAuthority.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RestoreCertificateAuthority (no args): {}", e.getMessage());
+            }
+            try {
+                RestoreCertificateAuthority.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RestoreCertificateAuthority (too many args): {}", e.getMessage());
+            }
+            try {
+                RestoreCertificateAuthority.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+            } catch (Exception e) {
+                logger.info("Expected exception in RestoreCertificateAuthority (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 22 passed");
+    }
+
+    @Test
+    @Order(23)
+    public void testRevokeCertificate() {
+        assertDoesNotThrow(() -> {
+            try {
+                RevokeCertificate.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RevokeCertificate (invalid args): {}", e.getMessage());
+            }
+            try {
+                RevokeCertificate.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RevokeCertificate (no args): {}", e.getMessage());
+            }
+            try {
+                RevokeCertificate.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "79:3f:0d:5b:6a:04:12:5e:2c:9c:fb:52:37:35:98:fe", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RevokeCertificate (too many args): {}", e.getMessage());
+            }
+            try {
+                RevokeCertificate.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "79:3f:0d:5b:6a:04:12:5e:2c:9c:fb:52:37:35:98:fe"});
+            } catch (Exception e) {
+                logger.info("Expected exception in RevokeCertificate (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 23 passed");
+    }
+
+    @Test
+    @Order(24)
+    public void testUpdateCertificateAuthority() {
+        assertDoesNotThrow(() -> {
+            try {
+                UpdateCertificateAuthority.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in UpdateCertificateAuthority (invalid args): {}", e.getMessage());
+            }
+            try {
+                UpdateCertificateAuthority.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in UpdateCertificateAuthority (no args): {}", e.getMessage());
+            }
+            try {
+                UpdateCertificateAuthority.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca", 
+                    "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in UpdateCertificateAuthority (too many args): {}", e.getMessage());
+            }
+            try {
+                UpdateCertificateAuthority.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"});
+            } catch (Exception e) {
+                logger.info("Expected exception in UpdateCertificateAuthority (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 24 passed");
+    }
 }

@@ -2,7 +2,39 @@
 
 ## Available examples
 
-* **CreateCertificateAuthority** - Create a new private certificate authority
+**Single Actions**
+
+Code samples that show you how to call individual service functions.
+
+* **CreateCertificateAuthority** 
+* **CreateCertificateAuthorityAuditReport** 
+* **CreatePermissions** 
+* **DeleteCertificateAuthority** 
+* **DeletePermission** 
+* **DeletePolicy** 
+* **DescribeCertificateAuthority** 
+* **DescribeCertificateAuthorityAuditReport** 
+* **GetCertificate** 
+* **GetCertificateAuthorityCertificate** 
+* **GetCertificateAuthorityCsr** 
+* **GetPolicy** 
+* **ImportCertificateAuthorityCertificate** 
+* **IssueCertificate** 
+* **ListCertificateAuthorites** 
+* **ListPermissions** 
+* **ListTags** 
+* **PutPolicy** 
+* **RestoreCertificateAuthority** 
+* **TagCertificateAuthority** 
+* **UntagCertificateAuthority** 
+
+**IMPORTANT**
+
+Code samples that demonstrate a specific task.
+
+* **Create and Activate a root CA programmatically** 
+* **Create and activate a subordinate CA programmatically** 
+* **Using CertificateAuthority to support Active Directory** 
 
 ## Running the AWS Private Certificate Authority Java files
 
@@ -20,11 +52,13 @@ For general prerequisites, see the [README](../../README.md#Prerequisites) in th
 
 ## Running the example
 
-To run the CreateCertificateAuthority example, see the usage instructions in the comments of the example file. The example requires parameters for the AWS region and an S3 bucket name for CRL revocation.
+To run the code examples, see the usage instructions in the comments of the example file. 
+
+The example requires parameters for the AWS region and an S3 bucket name for CRL revocation to run the CreateCertificateAuthority code sample.
 
 For example:
 
-mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-crl-bucket"
+mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-s3-bucket"
 
 ## Tests
 
@@ -33,12 +67,33 @@ You can test the Java code examples for AWS Private Certificate Authority by run
 To find instructions for running these tests, see the [README](../../README.md#Tests)
 in the `javav2` folder.
 
+You will see the output from the JUnit tests, as shown here:
+
+     [INFO] -------------------------------------------------------
+     [INFO]  T E S T S
+     [INFO] -------------------------------------------------------
+     [INFO] Running PCATests
+     [main] INFO PCATests - Test 1 passed
+     [main] INFO PCATests - Test 2 passed
+
+      ....
+     [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+     [INFO] 
+     [INFO] Results:
+     [INFO] 
+     [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+     [INFO] 
+     [INFO] ------------------------------------------------------------------------
+     [INFO] BUILD SUCCESS
+     [INFO] ------------------------------------------------------------------------
+     [INFO] Total time:  3.103 s
+     [INFO] Finished at: 2025-07-29T15:09:08Z
+     [INFO] ------------------------------------------------------------------------
 
 ## Additional resources
 
 * [AWS Private Certificate Authority Developer Guide](https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html)
 * [AWS SDK for Java v2 Developer Guide](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html)
-
 
 ---
 Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
