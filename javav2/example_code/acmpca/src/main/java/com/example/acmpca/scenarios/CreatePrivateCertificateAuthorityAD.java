@@ -1,4 +1,5 @@
-// package software.amazon.awssdk.services.appstream;
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
 
 package com.example.acmpca.scenarios;
 
@@ -43,6 +44,14 @@ import java.util.Base64;
 
 import lombok.SneakyThrows;
 
+// snippet-start:[acmpca.CreatePrivateCertificateAuthorityAD.main]
+/**
+ * Before running this Java V2 code example, set up your development 
+ * environment, including your credentials.
+ * 
+ * For more information, see the following documentation topic:
+ * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
+ */
 public class CreatePrivateCertificateAuthorityAD{
     public static void main(String[] args) throws Exception {
         final String usage =
@@ -232,3 +241,4 @@ public class CreatePrivateCertificateAuthorityAD{
         }
     }
 }
+// snippet-end:[acmpca.CreatePrivateCertificateAuthorityAD.main]

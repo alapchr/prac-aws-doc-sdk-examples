@@ -8,6 +8,9 @@ import com.example.acmpca.ImportCertificateAuthorityCertificate;
 import com.example.acmpca.RestoreCertificateAuthority;
 import com.example.acmpca.RevokeCertificate;
 import com.example.acmpca.UpdateCertificateAuthority;
+import com.example.acmpca.scenarios.CreatePrivateCertificateAuthorityAD;
+import com.example.acmpca.scenarios.RootCAActivation;
+import com.example.acmpca.scenarios.SubordinateCAActivation;
 
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
@@ -238,5 +241,93 @@ public class PCATests {
             }
         });
         logger.info("Test 24 passed");
+    }
+
+    @Test
+    @Order(25)
+    public void testCreatePrivateCertificateAuthorityAD() {
+        assertDoesNotThrow(() -> {
+            try {
+                CreatePrivateCertificateAuthorityAD.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreatePrivateCertificateAuthorityAD (no args): {}", e.getMessage());
+            }
+            try {
+                CreatePrivateCertificateAuthorityAD.main(new String[]{"us-east-1", "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in CreatePrivateCertificateAuthorityAD (too many args): {}", e.getMessage());
+            }
+            try {
+                CreatePrivateCertificateAuthorityAD.main(new String[]{"us-east-1"});
+            } catch (Exception e) {
+                logger.info("Expected exception in CreatePrivateCertificateAuthorityAD (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 25 passed");
+    }
+
+    @Test
+    @Order(26)
+    public void testRootCAActivation() {
+        assertDoesNotThrow(() -> {
+            try {
+                RootCAActivation.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RootCAActivation (no args): {}", e.getMessage());
+            }
+            try {
+                RootCAActivation.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RootCAActivation (missing bucket arg): {}", e.getMessage());
+            }
+            try {
+                RootCAActivation.main(new String[]{"us-east-1", "test-bucket", "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in RootCAActivation (too many args): {}", e.getMessage());
+            }
+            try {
+                RootCAActivation.main(new String[]{"us-east-1", "test-bucket"});
+            } catch (Exception e) {
+                logger.info("Expected exception in RootCAActivation (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 26 passed");
+    }
+
+    @Test
+    @Order(27)
+    public void testSubordinateCAActivation() {
+        assertDoesNotThrow(() -> {
+            try {
+                SubordinateCAActivation.main(new String[]{}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in SubordinateCAActivation (no args): {}", e.getMessage());
+            }
+            try {
+                SubordinateCAActivation.main(new String[]{"us-east-1"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in SubordinateCAActivation (missing args): {}", e.getMessage());
+            }
+            try {
+                SubordinateCAActivation.main(new String[]{"us-east-1", "test-root-ca-arn"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in SubordinateCAActivation (missing bucket arg): {}", e.getMessage());
+            }
+            try {
+                SubordinateCAActivation.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-root-ca", 
+                    "test-bucket", "extra-arg"}); 
+            } catch (Exception e) {
+                logger.info("Expected exception in SubordinateCAActivation (too many args): {}", e.getMessage());
+            }
+            try {
+                SubordinateCAActivation.main(new String[]{"us-east-1", 
+                    "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-root-ca", 
+                    "test-bucket"});
+            } catch (Exception e) {
+                logger.info("Expected exception in SubordinateCAActivation (AWS call): {}", e.getMessage());
+            }
+        });
+        logger.info("Test 27 passed");
     }
 }

@@ -169,6 +169,6 @@ acm-pca_CreatePrivateCertificateAuthorityAD:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.SubordinateCAActivation.main
+                - acmpca.CreatePrivateCertificateAuthorityAD.main
   services:
      acm-pca: {}
