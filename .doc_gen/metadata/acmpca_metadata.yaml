@@ -100,7 +100,7 @@ acm-pca_UpdateCertificateAuthority:
 acm-pca_RootCAActivation:
   title: Create and activate a root CA programmatically
   title_abbrev: Create and activate a root CA programmatically
-  synoposis-list:
+  synopsis_list:
     - This Java sample shows how to activate a root CA using the following AWS Private CA API actions
     - <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</ulink> 
     - <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCsr.html">GetCertificateAuthorityCsr</ulink>
@@ -125,7 +125,7 @@ acm-pca_RootCAActivation:
 acm-pca_SubordinateCAActivation:
   title: Create and activate a subordinate CA programmatically
   title_abbrev: Create and activate a subordinate CA programmatically
-  synoposis-list:
+  synopsis_list:
     - This Java sample shows how to activate a subordinate CA using the following AWS Private CA API actions
     - <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html">GetCertificateAuthorityCertificate</ulink> 
     - <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</ulink> 
@@ -151,13 +151,11 @@ acm-pca_SubordinateCAActivation:
 acm-pca_CreatePrivateCertificateAuthorityAD:
   title: Using CreateCertificateAuthority to support Active Directory
   title_abbrev: Using CreateCertificateAuthority to support Active Directory
-  synoposis-list:
+  synopsis_list:
     - The following Java sample shows how to use the <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</ulink> 
       operation to create a CA that can be installed in the Enterprise NTAuth store of Microsoft Active Directory (AD).
-
     - The operation creates a private root certificate authority (CA) using custom object identifiers (OIDs).
       For more information and an AWS CLI example of an equivalent operation, see <ulink url="https://docs.aws.amazon.com/privateca/latest/userguide/create-CA.html#example_5">Create a CA for Active Directory login</ulink> 
-
     - If successful, this function returns the Amazon Resource Name (ARN) of the CA. 
   category: Scenarios
   languages:
