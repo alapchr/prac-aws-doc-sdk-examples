@@ -43,17 +43,12 @@ public class TagCertificateAuthorities {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Method 1 - Replace the parameter for 'KEY' and 'VALUE' with your appropriate information
-    Tag.Builder tag = Tag.builder().key("Administrator").value("Bob");
-    Tag tag1 = tag.build();
-
-    // Method 2 - Replace the parameter for 'KEY' and 'VALUE' with your appropriate information
-    Tag tag2 = Tag.builder().key("Purpose").value("WebServices").build();
+    // Create a tag - Replace the parameter for KEY and VALUE with your appropriate information
+    Tag tag = Tag.builder().key("Purpose").value("WebServices").build();
 
     // Add the tags to a collection.
     List<Tag> tags = new ArrayList<>();
-    tags.add(tag1);
-    tags.add(tag2);
+    tags.add(tag);
 
     // Create a request object. 
     TagCertificateAuthorityRequest req =
