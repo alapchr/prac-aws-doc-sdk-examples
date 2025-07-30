@@ -138,9 +138,7 @@ acm-pca_SubordinateCAActivation:
 acm-pca_CreatePrivateCertificateAuthorityAD:
   title: Using CreateCertificateAuthority to support Active Directory
   title_abbrev: Using CreateCertificateAuthority to support Active Directory
-  synopsis: shows how to use the <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</ulink> operation to create a CA that can be installed in the Enterprise NTAuth store of Microsoft Active Directory (AD). 
-  synopsis_list:	
-    - If successful, this function returns the Amazon Resource Name (ARN) of the CA. 
+  synopsis: shows how to use the <ulink url="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</ulink> operation to create a CA that can be installed in the Enterprise NTAuth store of Microsoft Active Directory (AD). If successful, this function returns the Amazon Resource Name (ARN) of the CA. 
   category: Scenarios
   languages:
     Java:
