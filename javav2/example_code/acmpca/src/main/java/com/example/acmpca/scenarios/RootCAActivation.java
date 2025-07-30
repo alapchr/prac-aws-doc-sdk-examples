@@ -38,7 +38,7 @@ import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
  * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
  */
 public class RootCAActivation {
-  
+
     public static void main(String[] args) throws Exception {
 
       final String usage =
@@ -187,7 +187,7 @@ public class RootCAActivation {
     private static String getCertificate(String rootCertificateArn, String rootCAArn, AcmPcaClient client) {
       // Create a request object.
       GetCertificateRequest certificateRequest =
-            GetCertificateRequest.builder()
+          GetCertificateRequest.builder()
               .certificateArn(rootCertificateArn)
               .certificateAuthorityArn(rootCAArn)
               .build();

@@ -215,7 +215,7 @@ public class SubordinateCAActivation {
     private static String getCertificate(String subordinateCertificateArn, String rootCAArn, AcmPcaClient client) {
       // Create a request object.
       GetCertificateRequest certificateRequest =
-            GetCertificateRequest.builder()
+          GetCertificateRequest.builder()
               .certificateArn(subordinateCertificateArn)
               .certificateAuthorityArn(rootCAArn)
               .build();
