@@ -100,6 +100,7 @@ acm-pca_UpdateCertificateAuthority:
 acm-pca_RootCAActivation:
   title: Create and activate a root CA programmatically
   title_abbrev: Create and activate a root CA programmatically
+  category: Scenarios
   languages:
     Java:
       versions:
