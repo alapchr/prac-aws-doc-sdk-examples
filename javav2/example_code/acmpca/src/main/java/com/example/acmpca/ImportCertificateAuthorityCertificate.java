@@ -8,6 +8,10 @@ import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
 import software.amazon.awssdk.services.acmpca.model.AcmPcaException;
 import software.amazon.awssdk.services.acmpca.model.ImportCertificateAuthorityCertificateRequest;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 
 // snippet-start:[acmpca.java2.ImportCertificateAuthorityCertificate.main]
 /**
@@ -41,30 +45,32 @@ public class ImportCertificateAuthorityCertificate {
     // Create a client that you can use to make requests.
     AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
 
-    // Set the signed certificate.
-    String certificateStr =
-          "-----BEGIN CERTIFICATE-----\n" +
-          "base64-encoded certificate\n" +
-          "-----END CERTIFICATE-----\n";
-    SdkBytes certSdkBytes = SdkBytes.fromUtf8String(certificateStr);
-
-    // Set the certificate chain.
-    String certificateStrChain =
-          "-----BEGIN CERTIFICATE-----\n" +
-          "base64-encoded certificate\n" +
-          "-----END CERTIFICATE-----\n";
-    SdkBytes chainSdkBytes = SdkBytes.fromUtf8String(certificateStrChain);
-
-    // Create a request object with required parameters.
-    ImportCertificateAuthorityCertificateRequest req =
-        ImportCertificateAuthorityCertificateRequest.builder()
-            .certificateAuthorityArn(caArn)
-            .certificate(certSdkBytes)
-            .certificateChain(chainSdkBytes)
-            .build();
-            
     try {
+      /*
+       * Read the signed certificate.
+       * This assumes that a file named cert.pem is stored somewhere and contains the signed certificate
+       */
+      String cert = Files.readString(Paths.get("cert.pem"), StandardCharsets.UTF_8);
+      SdkBytes certSdkBytes = SdkBytes.fromUtf8String(cert);
+
+      /*
+       * Read the certificate chain.
+       * This assumes that a file named certChain.pem is stored somewhere and contains the certificate chain 
+       */
+      String certChain = Files.readString(Paths.get("certChain.pem"), StandardCharsets.UTF_8);
+      SdkBytes chainSdkBytes = SdkBytes.fromUtf8String(certChain);
+
+      ImportCertificateAuthorityCertificateRequest req =
+          ImportCertificateAuthorityCertificateRequest.builder()
+              .certificateAuthorityArn(caArn)
+              .certificate(certSdkBytes)
+              .certificateChain(chainSdkBytes)
+              .build();
+              
       client.importCertificateAuthorityCertificate(req);
+      
+    } catch (IOException ex) {
+      System.err.println("Error reading certificate file: " + ex.getMessage());
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     }
