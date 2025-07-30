@@ -28,7 +28,7 @@ Code samples that show you how to call individual service functions.
 * **TagCertificateAuthority** 
 * **UntagCertificateAuthority** 
 
-**IMPORTANT**
+**Sceanrios**
 
 Code samples that demonstrate a specific task.
 
@@ -58,7 +58,7 @@ The example requires parameters for the AWS region and an S3 bucket name for CRL
 
 For example:
 
-mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-s3-bucket"
+mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-crl-bucket"
 
 ## Tests
 
@@ -66,29 +66,6 @@ You can test the Java code examples for AWS Private Certificate Authority by run
 
 To find instructions for running these tests, see the [README](../../README.md#Tests)
 in the `javav2` folder.
-
-You will see the output from the JUnit tests, as shown here:
-
-     [INFO] -------------------------------------------------------
-     [INFO]  T E S T S
-     [INFO] -------------------------------------------------------
-     [INFO] Running PCATests
-     [main] INFO PCATests - Test 1 passed
-     [main] INFO PCATests - Test 2 passed
-
-      ....
-     [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
-     [INFO] 
-     [INFO] Results:
-     [INFO] 
-     [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
-     [INFO] 
-     [INFO] ------------------------------------------------------------------------
-     [INFO] BUILD SUCCESS
-     [INFO] ------------------------------------------------------------------------
-     [INFO] Total time:  3.103 s
-     [INFO] Finished at: 2025-07-29T15:09:08Z
-     [INFO] ------------------------------------------------------------------------
 
 ## Additional resources
 
