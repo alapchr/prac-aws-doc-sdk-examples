@@ -13,7 +13,21 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
-acm-pca_DeleteCertificateAuthority:
+acm-pca_CreatePermission:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.CreatePermission.main
+  services:
+     acm-pca: {CreatePermission}
+
+acm-pca_DescribeCertificateAuthority:
   languages:
     Java:
       versions:
@@ -23,11 +37,11 @@ acm-pca_DeleteCertificateAuthority:
           excerpts:
             - description: 
               snippet_tags:
-                - acmpca.java2.DeleteCertificateAuthority.main
+                - acmpca.java2.DescribeCertificateAuthority.main
   services:
-     acm-pca: {DeleteCertificateAuthority}
+     acm-pca: {DescribeCertificateAuthority}
 
-acm-pca_GetCertificateAuthorityCsr:
+acm-pca_DeletePermission:
   languages:
     Java:
       versions:
@@ -37,11 +51,11 @@ acm-pca_GetCertificateAuthorityCsr:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.GetCertificateAuthorityCsr.main
+                - acmpca.java2.DeletePermission.main
   services:
-     acm-pca: {GetCertificateAuthorityCsr}
+     acm-pca: {DeletePermission}
 
-acm-pca_GetCertificate:
+acm-pca_DeletePolicy:
   languages:
     Java:
       versions:
@@ -51,11 +65,11 @@ acm-pca_GetCertificate:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.GetCertificate.main
+                - acmpca.java2.DeletePolicy.main
   services:
-     acm-pca: {GetCertificate}
+     acm-pca: {DeletePolicy}
 
-acm-pca_IssueCertificate:
+acm-pca_GetCertificateAuthorityCertificate:
   languages:
     Java:
       versions:
@@ -65,11 +79,11 @@ acm-pca_IssueCertificate:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.IssueCertificate.main
+                - acmpca.java2.GetCertificateAuthorityCertificate.main
   services:
-     acm-pca: {IssueCertificate}
+     acm-pca: {GetCertificateAuthorityCertificate}
 
-acm-pca_TagCertificateAuthorities:
+acm-pca_GetPolicy:
   languages:
     Java:
       versions:
@@ -79,11 +93,11 @@ acm-pca_TagCertificateAuthorities:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.TagCertificateAuthorities.main
+                - acmpca.java2.GetPolicy.main
   services:
-     acm-pca: {TagCertificateAuthorities}
+     acm-pca: {GetPolicy}
 
-acm-pca_UntagCertificateAuthority:
+acm-pca_ListPermissions:
   languages:
     Java:
       versions:
@@ -93,6 +107,49 @@ acm-pca_UntagCertificateAuthority:
           excerpts:
             - description:
               snippet_tags:
-                - acmpca.java2.UntagCertificateAuthority.main
+                - acmpca.java2.ListPermissions.main
   services:
-     acm-pca: {UntagCertificateAuthority}     
+     acm-pca: {ListPermissions}
+
+acm-pca_ListCertificateAuthorities:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.ListCertificateAuthorities.main
+  services:
+     acm-pca: {ListCertificateAuthorities}
+     
+acm-pca_ListTags:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description: 
+              snippet_tags:
+                - acmpca.java2.ListTags.main
+  services:
+     acm-pca: {ListTags}
+
+acm-pca_PutPolicy:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.PutPolicy.main
+  services:
+     acm-pca: {PutPolicy}
+     
