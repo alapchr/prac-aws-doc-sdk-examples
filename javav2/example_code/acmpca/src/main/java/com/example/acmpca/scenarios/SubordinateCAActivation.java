@@ -42,230 +42,225 @@ public class SubordinateCAActivation {
 
     public static void main(String[] args) throws Exception {
         
-        final String usage =
-            """
-                Usage: <region> <rootCAArn> <s3BucketName>
+      final String usage =
+          """
+              Usage: <region> <rootCAArn> <s3BucketName>
 
-                Where:
-                    region - The AWS region (e.g. us-east-1)
-                    rootArn - The ARN of the rootCA 
-                    s3BucketName - The name of your bucket for CRL revocation
-                """;
+              Where:
+                  region - The AWS region (e.g. us-east-1)
+                  rootArn - The ARN of the rootCA 
+                  s3BucketName - The name of your bucket for CRL revocation
+              """;
 
-        if (args.length != 3) {
-          System.out.println(usage);
-          return;
-        }
+      if (args.length != 3) {
+        System.out.println(usage);
+        return;
+      }
 
-        String region = args[0];
-        String rootArn = args[1];
-        String s3BucketName = args[2];
-        
-        // Place your own Root CA ARN here.
-        String rootCAArn = rootArn;
+      String region = args[0];
+      String rootArn = args[1];
+      String s3BucketName = args[2];
+      
+      // Place your own Root CA ARN here.
+      String rootCAArn = rootArn;
 
-        // Define a CA subject.
-        ASN1Subject subject = 
-            ASN1Subject.builder()
-                .organization("Example Organization")
-                .organizationalUnit("Example")
-                .country("US")
-                .state("Virginia")
-                .locality("Arlington")
-                .commonName("www.example.com")
-                .build();
+      // Define a CA subject.
+      ASN1Subject subject = 
+          ASN1Subject.builder()
+              .organization("Example Organization")
+              .organizationalUnit("Example")
+              .country("US")
+              .state("Virginia")
+              .locality("Arlington")
+              .commonName("www.example.com")
+              .build();
 
-        // Define the CA configuration.
-        CertificateAuthorityConfiguration configCA = 
-            CertificateAuthorityConfiguration.builder()
-                .keyAlgorithm(KeyAlgorithm.RSA_2048)
-                .signingAlgorithm(SigningAlgorithm.SHA256_WITHRSA)
-                .subject(subject)
-                .build();
+      // Define the CA configuration.
+      CertificateAuthorityConfiguration configCA = 
+          CertificateAuthorityConfiguration.builder()
+              .keyAlgorithm(KeyAlgorithm.RSA_2048)
+              .signingAlgorithm(SigningAlgorithm.SHA256_WITHRSA)
+              .subject(subject)
+              .build();
 
-       // Define a certificate revocation list configuration.
-        CrlConfiguration crlConfigure = 
-            CrlConfiguration.builder()
-                .enabled(true)
-                .expirationInDays(365)
-                .customCname(null)
-                .s3BucketName(s3BucketName)
-                .build();
+      // Define a certificate revocation list configuration.
+      CrlConfiguration crlConfigure = 
+          CrlConfiguration.builder()
+              .enabled(true)
+              .expirationInDays(365)
+              .customCname(null)
+              .s3BucketName(s3BucketName)
+              .build();
 
-        // Define a certificate authority type.
-        CertificateAuthorityType CAtype = CertificateAuthorityType.SUBORDINATE;
+      // Define a certificate authority type.
+      CertificateAuthorityType CAtype = CertificateAuthorityType.SUBORDINATE;
 
-        // ** Execute core code samples for Subordinate CA activation in sequence **
-        AcmPcaClient client = ClientBuilder(region);
-        String rootCertificate = GetCertificateAuthorityCertificate(rootCAArn, client);
-        String subordinateCAArn = CreateCertificateAuthority(configCA, crlConfigure, CAtype, client);
-        String csr = GetCertificateAuthorityCsr(subordinateCAArn, client);
-        String subordinateCertificateArn = IssueCertificate(rootCAArn, csr, client);
-        String subordinateCertificate = GetCertificate(subordinateCertificateArn, rootCAArn, client);
-        ImportCertificateAuthorityCertificate(subordinateCertificate, rootCertificate, subordinateCAArn, client);
-
+      // ** Execute core code samples for Subordinate CA activation in sequence **
+      AcmPcaClient client = createClient(region);
+      String rootCertificate = getCertificateAuthorityCertificate(rootCAArn, client);
+      String subordinateCAArn = createCertificateAuthority(configCA, crlConfigure, CAtype, client);
+      String csr = getCertificateAuthorityCsr(subordinateCAArn, client);
+      String subordinateCertificateArn = issueCertificate(rootCAArn, csr, client);
+      String subordinateCertificate = getCertificate(subordinateCertificateArn, rootCAArn, client);
+      importCertificateAuthorityCertificate(subordinateCertificate, rootCertificate, subordinateCAArn, client);
     }
 
-    private static AcmPcaClient ClientBuilder(String region) {
-        AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
-        return client;
+    private static AcmPcaClient createClient(String region) {
+      AcmPcaClient client = AcmPcaClient.builder().region(Region.of(region)).build();
+      return client;
     }
 
-    private static String GetCertificateAuthorityCertificate(String rootCAArn, AcmPcaClient client) {
-
-        // Create a request object.
-        GetCertificateAuthorityCertificateRequest getCACertificateRequest =
-            GetCertificateAuthorityCertificateRequest.builder()
-                .certificateAuthorityArn(rootCAArn)
-                .build();
-        
-        try {
-          GetCertificateAuthorityCertificateResponse getCACertificateResult = client.getCertificateAuthorityCertificate(getCACertificateRequest);
-          // Retrieve and display the certificate information.
-          String rootCertificate = getCACertificateResult.certificate();
-          System.out.println("Root CA Certificate / Certificate Chain:");
-          System.out.println(rootCertificate);
-          return rootCertificate;
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-          throw new RuntimeException("Certificate Authority creation failed", ex);
-        } 
+    private static String getCertificateAuthorityCertificate(String rootCAArn, AcmPcaClient client) {
+      // Create a request object.
+      GetCertificateAuthorityCertificateRequest getCACertificateRequest =
+          GetCertificateAuthorityCertificateRequest.builder()
+              .certificateAuthorityArn(rootCAArn)
+              .build();
+      
+      try {
+        GetCertificateAuthorityCertificateResponse getCACertificateResult = client.getCertificateAuthorityCertificate(getCACertificateRequest);
+        // Retrieve and display the certificate information.
+        String rootCertificate = getCACertificateResult.certificate();
+        System.out.println("Root CA Certificate / Certificate Chain:");
+        System.out.println(rootCertificate);
+        return rootCertificate;
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+        throw new RuntimeException("Certificate Authority creation failed", ex);
+      } 
     }
 
-    private static String CreateCertificateAuthority(CertificateAuthorityConfiguration configCA, CrlConfiguration crlConfigure, CertificateAuthorityType CAtype, AcmPcaClient client) {
-         RevocationConfiguration revokeConfig = 
-            RevocationConfiguration.builder()
-                .crlConfiguration(crlConfigure)
-                .build();
+    private static String createCertificateAuthority(CertificateAuthorityConfiguration configCA, CrlConfiguration crlConfigure, CertificateAuthorityType CAtype, AcmPcaClient client) {
+      RevocationConfiguration revokeConfig = 
+        RevocationConfiguration.builder()
+            .crlConfiguration(crlConfigure)
+            .build();
 
-       // Create the request object.
-        CreateCertificateAuthorityRequest createCARequest = 
-            CreateCertificateAuthorityRequest.builder()
-                .certificateAuthorityConfiguration(configCA)
-                .revocationConfiguration(revokeConfig)
-                .idempotencyToken("123987")
-                .certificateAuthorityType(CAtype)
-                .build();
+      // Create the request object.
+      CreateCertificateAuthorityRequest createCARequest = 
+          CreateCertificateAuthorityRequest.builder()
+              .certificateAuthorityConfiguration(configCA)
+              .revocationConfiguration(revokeConfig)
+              .idempotencyToken("123987")
+              .certificateAuthorityType(CAtype)
+              .build();
 
-        try {
-          CreateCertificateAuthorityResponse createCAResult = client.createCertificateAuthority(createCARequest);
-          // Retrieve the ARN of the private CA.
-          String subordinateCAArn = createCAResult.certificateAuthorityArn();
-          System.out.println("Subordinate CA Arn: " + subordinateCAArn);
-          return subordinateCAArn;
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-          throw new RuntimeException("Certificate Authority creation failed", ex);
-        }     
+      try {
+        CreateCertificateAuthorityResponse createCAResult = client.createCertificateAuthority(createCARequest);
+        // Retrieve the ARN of the private CA.
+        String subordinateCAArn = createCAResult.certificateAuthorityArn();
+        System.out.println("Subordinate CA Arn: " + subordinateCAArn);
+        return subordinateCAArn;
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+        throw new RuntimeException("Certificate Authority creation failed", ex);
+      }     
     }
 
-    private static String GetCertificateAuthorityCsr(String subordinateCAArn, AcmPcaClient client) {
+    private static String getCertificateAuthorityCsr(String subordinateCAArn, AcmPcaClient client) {
+      // Create the CSR request object.
+      GetCertificateAuthorityCsrRequest csrRequest = 
+          GetCertificateAuthorityCsrRequest.builder()
+              .certificateAuthorityArn(subordinateCAArn)
+              .build();
 
-        // Create the CSR request object.
-        GetCertificateAuthorityCsrRequest csrRequest = 
-            GetCertificateAuthorityCsrRequest.builder()
-                .certificateAuthorityArn(subordinateCAArn)
-                .build();
+      // Create waiter to wait on successful creation of the CSR file.
+      try (AcmPcaWaiter waiter = client.waiter()) {
+        waiter.waitUntilCertificateAuthorityCSRCreated(
+            b -> b.certificateAuthorityArn(csrRequest.certificateAuthorityArn()).build());
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+      }
 
-        // Create waiter to wait on successful creation of the CSR file.
-        try (AcmPcaWaiter waiter = client.waiter()) {
-         waiter.waitUntilCertificateAuthorityCSRCreated(
-             b -> b.certificateAuthorityArn(csrRequest.certificateAuthorityArn()).build());
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-        }
-
-        try {
-          GetCertificateAuthorityCsrResponse csrResult = client.getCertificateAuthorityCsr(csrRequest);
-          // Retrieve and display the CSR.
-          String csr = csrResult.csr();
-          System.out.println("Subordinate CSR:");
-          System.out.println(csr);
-          return csr;
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-          throw new RuntimeException("Failed to get Certificate Authority CSR", ex);
-        }
+      try {
+        GetCertificateAuthorityCsrResponse csrResult = client.getCertificateAuthorityCsr(csrRequest);
+        // Retrieve and display the CSR.
+        String csr = csrResult.csr();
+        System.out.println("Subordinate CSR:");
+        System.out.println(csr);
+        return csr;
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+        throw new RuntimeException("Failed to get Certificate Authority CSR", ex);
+      }
     }
 
-    private static String IssueCertificate(String rootCAArn, String csr, AcmPcaClient client) {
-        
-        SdkBytes csrSdkBytes = SdkBytes.fromUtf8String(csr);
+    private static String issueCertificate(String rootCAArn, String csr, AcmPcaClient client) {
+      
+      SdkBytes csrSdkBytes = SdkBytes.fromUtf8String(csr);
 
-        // Create a certificate request.
-        IssueCertificateRequest issueRequest = 
-            IssueCertificateRequest.builder()
-                .certificateAuthorityArn(rootCAArn)
-                .templateArn("arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1")
-                .signingAlgorithm(SigningAlgorithm.SHA256_WITHRSA)
-                .validity(Validity.builder().value(730L).type("DAYS").build())
-                .idempotencyToken("1234")
-                .csr(csrSdkBytes)
-                .build();
+      // Create a certificate request.
+      IssueCertificateRequest issueRequest = 
+          IssueCertificateRequest.builder()
+              .certificateAuthorityArn(rootCAArn)
+              .templateArn("arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1")
+              .signingAlgorithm(SigningAlgorithm.SHA256_WITHRSA)
+              .validity(Validity.builder().value(730L).type("DAYS").build())
+              .idempotencyToken("1234")
+              .csr(csrSdkBytes)
+              .build();
 
-        try {
-          IssueCertificateResponse issueResult = client.issueCertificate(issueRequest);
-          // Retrieve and display the certificate ARN.
-          String subordinateCertificateArn = issueResult.certificateArn();
-          System.out.println("Subordinate Certificate Arn: " + subordinateCertificateArn);
-          return subordinateCertificateArn;
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-          throw new RuntimeException("Failed to issue certificate", ex);
-        }
+      try {
+        IssueCertificateResponse issueResult = client.issueCertificate(issueRequest);
+        // Retrieve and display the certificate ARN.
+        String subordinateCertificateArn = issueResult.certificateArn();
+        System.out.println("Subordinate Certificate Arn: " + subordinateCertificateArn);
+        return subordinateCertificateArn;
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+        throw new RuntimeException("Failed to issue certificate", ex);
+      }
     }
 
-    private static String GetCertificate(String subordinateCertificateArn, String rootCAArn, AcmPcaClient client) {
+    private static String getCertificate(String subordinateCertificateArn, String rootCAArn, AcmPcaClient client) {
+      // Create a request object.
+      GetCertificateRequest certificateRequest =
+            GetCertificateRequest.builder()
+              .certificateArn(subordinateCertificateArn)
+              .certificateAuthorityArn(rootCAArn)
+              .build();
+              
+      // Create waiter to wait on successful creation of the certificate file.
+      try (AcmPcaWaiter waiter = client.waiter()) {
+        waiter.waitUntilCertificateIssued(
+            b -> b.certificateArn(certificateRequest.certificateArn()).certificateAuthorityArn(certificateRequest.certificateAuthorityArn()).build());
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+      }
 
-        // Create a request object.
-        GetCertificateRequest certificateRequest =
-             GetCertificateRequest.builder()
-                .certificateArn(subordinateCertificateArn)
-                .certificateAuthorityArn(rootCAArn)
-                .build();
-                
-        // Create waiter to wait on successful creation of the certificate file.
-        try (AcmPcaWaiter waiter = client.waiter()) {
-          waiter.waitUntilCertificateIssued(
-              b -> b.certificateArn(certificateRequest.certificateArn()).certificateAuthorityArn(certificateRequest.certificateAuthorityArn()).build());
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-        }
-
-        try {
-          GetCertificateResponse certificateResult = client.getCertificate(certificateRequest);
-          // Get the certificate and certificate chain and display the result.
-          String subordinateCertificate = certificateResult.certificate();
-          System.out.println("Subordinate CA Certificate:");
-          System.out.println(subordinateCertificate);
-          return subordinateCertificate;
-        } catch (AcmPcaException ex) {
-          System.err.println("Failed to get certificate: " + ex.awsErrorDetails().errorMessage());
-          throw new RuntimeException("Failed to get certificate", ex);
-        }
+      try {
+        GetCertificateResponse certificateResult = client.getCertificate(certificateRequest);
+        // Get the certificate and certificate chain and display the result.
+        String subordinateCertificate = certificateResult.certificate();
+        System.out.println("Subordinate CA Certificate:");
+        System.out.println(subordinateCertificate);
+        return subordinateCertificate;
+      } catch (AcmPcaException ex) {
+        System.err.println("Failed to get certificate: " + ex.awsErrorDetails().errorMessage());
+        throw new RuntimeException("Failed to get certificate", ex);
+      }
     }
 
-    private static void ImportCertificateAuthorityCertificate(String subordinateCertificate, String rootCertificate, String subordinateCAArn, AcmPcaClient client) {
+    private static void importCertificateAuthorityCertificate(String subordinateCertificate, String rootCertificate, String subordinateCAArn, AcmPcaClient client) {
 
-       
-        SdkBytes certSdkBytes = SdkBytes.fromUtf8String(subordinateCertificate);
-        SdkBytes rootSdkBytes = SdkBytes.fromUtf8String(rootCertificate);
+      SdkBytes certSdkBytes = SdkBytes.fromUtf8String(subordinateCertificate);
+      SdkBytes rootSdkBytes = SdkBytes.fromUtf8String(rootCertificate);
 
-        // Create the request object.
-        ImportCertificateAuthorityCertificateRequest importRequest =
-            ImportCertificateAuthorityCertificateRequest.builder()
-                .certificate(certSdkBytes)
-                .certificateChain(rootSdkBytes)
-                .certificateAuthorityArn(subordinateCAArn)
-                .build();
+      // Create the request object.
+      ImportCertificateAuthorityCertificateRequest importRequest =
+          ImportCertificateAuthorityCertificateRequest.builder()
+              .certificate(certSdkBytes)
+              .certificateChain(rootSdkBytes)
+              .certificateAuthorityArn(subordinateCAArn)
+              .build();
 
-        try {
-          client.importCertificateAuthorityCertificate(importRequest);
-          System.out.println("Subordinate CA certificate successfully imported.");
-          System.out.println("Subordinate CA activated successfully.");
-        } catch (AcmPcaException ex) {
-          System.err.println(ex.awsErrorDetails().errorMessage());
-        }    
+      try {
+        client.importCertificateAuthorityCertificate(importRequest);
+        System.out.println("Subordinate CA certificate successfully imported.");
+        System.out.println("Subordinate CA activated successfully.");
+      } catch (AcmPcaException ex) {
+        System.err.println(ex.awsErrorDetails().errorMessage());
+      }    
     }
 }
 // snippet-end:[acmpca.java2.SubordinateCAActivation.main]

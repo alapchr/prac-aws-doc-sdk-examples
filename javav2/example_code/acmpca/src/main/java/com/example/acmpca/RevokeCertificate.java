@@ -54,8 +54,9 @@ public class RevokeCertificate {
             
     try {
       client.revokeCertificate(req);
+      System.out.println("Certificate Revoked!");
     } catch (AcmPcaException ex) {
-       System.err.println(ex.awsErrorDetails().errorMessage());
+      System.err.println(ex.awsErrorDetails().errorMessage());
     } 
   }
 }

@@ -55,11 +55,7 @@ public class UpdateCertificateAuthority {
             .customCname("your-custom-cname")
             .s3BucketName("your-bucket-name")
             .build();
-    /*
-     * Set the CRL configuration onto your UpdateCertificateAuthorityRequest object.
-     * If you do not want to change your CRL configuration, do not use the
-     * crlConfiguration method.
-     */
+            
     RevocationConfiguration revokeConfig =
         RevocationConfiguration.builder()
             .crlConfiguration(crlConfigure)

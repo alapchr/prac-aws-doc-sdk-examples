@@ -69,10 +69,10 @@ public class DescribeCertificateAuthorityAuditReport {
       String s3Key = result.s3Key();
       Instant createdAt = result.createdAt(); 
 
-      System.out.println(status);
-      System.out.println(s3Bucket);
-      System.out.println(s3Key);
-      System.out.println(createdAt);
+      System.out.println("AuditReportStatus: " + status);
+      System.out.println("S3BucketName: " + s3Bucket);
+      System.out.println("s3Key: " + s3Key);
+      System.out.println("Audit Report was created on: " + createdAt);
 
     } catch (AcmPcaException ex){
       System.err.println(ex.awsErrorDetails().errorMessage());

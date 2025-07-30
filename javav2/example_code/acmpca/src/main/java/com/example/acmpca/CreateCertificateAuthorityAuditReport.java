@@ -53,13 +53,13 @@ public class CreateCertificateAuthorityAuditReport {
 
     try {
       CreateCertificateAuthorityAuditReportResponse result = 
-      client.createCertificateAuthorityAuditReport(req);
+          client.createCertificateAuthorityAuditReport(req);
 
-      String ID = result.auditReportId();
-      String S3Key = result.s3Key();
+      String id = result.auditReportId();
+      String s3Key = result.s3Key();
 
-      System.out.println("Certificate Authority Audit Report ID:" + ID);
-      System.out.println("S3 Object Key:" + S3Key);
+      System.out.println("Certificate Authority Audit Report ID: " + id);
+      System.out.println("S3 Object Key: " + s3Key);
     } catch (AcmPcaException ex) {
       System.err.println(ex.awsErrorDetails().errorMessage());
     } 
