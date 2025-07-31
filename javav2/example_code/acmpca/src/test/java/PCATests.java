@@ -1,8 +1,71 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import com.example.acmpca.*;
-import org.junit.jupiter.api.*;
+import com.example.acmpca.CreateCertificateAuthority;
+import com.example.acmpca.CreatePermission;
+import com.example.acmpca.DeleteCertificateAuthority;
+import com.example.acmpca.DeletePermission;
+import com.example.acmpca.DeletePolicy;
+import com.example.acmpca.DescribeCertificateAuthority;
+import com.example.acmpca.GetCertificate;
+import com.example.acmpca.GetCertificateAuthorityCertificate;
+import com.example.acmpca.GetCertificateAuthorityCsr;
+import com.example.acmpca.GetPolicy;
+import com.example.acmpca.IssueCertificate;
+import com.example.acmpca.ListCertificateAuthorities;
+import com.example.acmpca.ListPermissions;
+import com.example.acmpca.ListTags;
+import com.example.acmpca.PutPolicy;
+import com.example.acmpca.TagCertificateAuthorities;
+import com.example.acmpca.UntagCertificateAuthority;
+
+import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityResponse;
+import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityResponse;
+import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.CertificateAuthority;
+import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityStatus;
+import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityType;
+import software.amazon.awssdk.services.acmpca.model.ListCertificateAuthoritiesResponse;
+import software.amazon.awssdk.services.acmpca.model.ListCertificateAuthoritiesRequest;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCertificateResponse;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCertificateRequest;
+import software.amazon.awssdk.services.acmpca.model.ListTagsResponse;
+import software.amazon.awssdk.services.acmpca.model.ListTagsRequest;
+import software.amazon.awssdk.services.acmpca.model.CreatePermissionResponse;
+import software.amazon.awssdk.services.acmpca.model.CreatePermissionRequest;
+import software.amazon.awssdk.services.acmpca.model.DeletePermissionResponse;
+import software.amazon.awssdk.services.acmpca.model.DeletePermissionRequest;
+import software.amazon.awssdk.services.acmpca.model.DeletePolicyResponse;
+import software.amazon.awssdk.services.acmpca.model.DeletePolicyRequest;
+import software.amazon.awssdk.services.acmpca.model.GetPolicyResponse;
+import software.amazon.awssdk.services.acmpca.model.GetPolicyRequest;
+import software.amazon.awssdk.services.acmpca.model.ListPermissionsResponse;
+import software.amazon.awssdk.services.acmpca.model.ListPermissionsRequest;
+import software.amazon.awssdk.services.acmpca.model.Permission;
+import software.amazon.awssdk.services.acmpca.model.ActionType;
+import software.amazon.awssdk.services.acmpca.model.PutPolicyResponse;
+import software.amazon.awssdk.services.acmpca.model.PutPolicyRequest;
+import software.amazon.awssdk.services.acmpca.model.DeleteCertificateAuthorityResponse;
+import software.amazon.awssdk.services.acmpca.model.DeleteCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateResponse;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateRequest;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCsrResponse;
+import software.amazon.awssdk.services.acmpca.model.GetCertificateAuthorityCsrRequest;
+import software.amazon.awssdk.services.acmpca.model.IssueCertificateResponse;
+import software.amazon.awssdk.services.acmpca.model.IssueCertificateRequest;
+import software.amazon.awssdk.services.acmpca.model.TagCertificateAuthorityResponse;
+import software.amazon.awssdk.services.acmpca.model.TagCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityResponse;
+import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityRequest;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -10,16 +73,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.acmpca.AcmPcaClient;
-import software.amazon.awssdk.services.acmpca.model.*;
-import software.amazon.awssdk.services.acmpca.model.ActionType;
 import software.amazon.awssdk.services.acmpca.model.Tag;
+import software.amazon.awssdk.services.acmpca.waiters.AcmPcaWaiter;
+import software.amazon.awssdk.services.acmpca.AcmPcaClientBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -28,6 +101,9 @@ public class PCATests {
     
     @Mock
     private AcmPcaClient mockClient;
+    
+    @Mock
+    private AcmPcaWaiter mockWaiter;
     
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
@@ -354,8 +430,18 @@ public class PCATests {
         when(mockClient.putPolicy(any(PutPolicyRequest.class)))
                 .thenReturn(mockResponse);
 
-        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
-            setupMockClient(mockedStatic);
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class);
+             MockedStatic<Files> mockedFiles = mockStatic(Files.class);
+             MockedStatic<Paths> mockedPaths = mockStatic(Paths.class)) {
+            
+            setupMockClient(mockedStatic); 
+         
+            Path mockPath = mock(Path.class);
+            String mockPolicyContent = "{\"Version\":\"2012-10-17\",\"Statement\":[]}";
+            
+            mockedPaths.when(() -> Paths.get("policy", "Policy.json")).thenReturn(mockPath);
+            mockedFiles.when(() -> Files.readAllBytes(mockPath)).thenReturn(mockPolicyContent.getBytes());
+            
             
             assertDoesNotThrow(() -> PutPolicy.main(new String[]{
                 "us-east-1", 
@@ -372,18 +458,206 @@ public class PCATests {
         originalOut.println("Test 11 passed");
     }
 
+    @Test
+    @Order(12)
+    public void testDeleteCertificateAuthority() {
+        DeleteCertificateAuthorityResponse mockResponse = DeleteCertificateAuthorityResponse.builder().build();
+        
+        when(mockClient.deleteCertificateAuthority(any(DeleteCertificateAuthorityRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> DeleteCertificateAuthority.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).deleteCertificateAuthority(any(DeleteCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+            
+             assertDoesNotThrow(() -> DeleteCertificateAuthority.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca",
+                "30"
+            }));
+            verify(mockClient).deleteCertificateAuthority(any(DeleteCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+
+            assertDoesNotThrow(() -> DeleteCertificateAuthority.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 12 passed");
+    }
+
+    @Test
+    @Order(13)
+    public void testGetCertificate() {
+        GetCertificateResponse mockResponse = GetCertificateResponse.builder()
+                .certificate("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...")
+                .certificateChain("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...")
+                .build();
+        
+        when(mockClient.getCertificate(any(GetCertificateRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> GetCertificate.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate/test-cert",
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).getCertificate(any(GetCertificateRequest.class));
+            assertTrue(outputStream.toString().contains("BEGIN CERTIFICATE"), "Should output certificate");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> GetCertificate.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 13 passed");
+    }
+
+    @Test
+    @Order(14)
+    public void testGetCertificateAuthorityCsr() {
+        GetCertificateAuthorityCsrResponse mockResponse = GetCertificateAuthorityCsrResponse.builder()
+                .csr("-----BEGIN CERTIFICATE REQUEST-----\nMIIBkTCB+wIJAK...")
+                .build();
+        
+        when(mockClient.getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> GetCertificateAuthorityCsr.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class));
+            assertTrue(outputStream.toString().contains("BEGIN CERTIFICATE REQUEST"), "Should output CSR");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> GetCertificateAuthorityCsr.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 14 passed");
+    }
+
+    @Test
+    @Order(15)
+    public void testIssueCertificate() {
+        IssueCertificateResponse mockResponse = IssueCertificateResponse.builder()
+                .certificateArn("arn:aws:acm-pca:us-east-1:123456789012:certificate/test-cert")
+                .build();
+        
+        when(mockClient.issueCertificate(any(IssueCertificateRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class);
+             MockedStatic<Files> mockedFiles = mockStatic(Files.class);
+             MockedStatic<Paths> mockedPaths = mockStatic(Paths.class)) {
+            
+            setupMockClient(mockedStatic);
+            
+            Path mockPath = mock(Path.class);
+            String mockCsrContent = "-----BEGIN CERTIFICATE REQUEST-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE REQUEST-----";
+            
+            mockedPaths.when(() -> Paths.get("ca.csr")).thenReturn(mockPath);
+            mockedFiles.when(() -> Files.readString(mockPath, StandardCharsets.UTF_8)).thenReturn(mockCsrContent);
+            
+            assertDoesNotThrow(() -> IssueCertificate.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).issueCertificate(any(IssueCertificateRequest.class));
+            assertTrue(outputStream.toString().contains("certificate/test-cert"), "Should output certificate ARN");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> IssueCertificate.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 15 passed");
+    }
+
+    @Test
+    @Order(16)
+    public void testTagCertificateAuthorities() {
+        TagCertificateAuthorityResponse mockResponse = TagCertificateAuthorityResponse.builder().build();
+        
+        when(mockClient.tagCertificateAuthority(any(TagCertificateAuthorityRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> TagCertificateAuthorities.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).tagCertificateAuthority(any(TagCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> TagCertificateAuthorities.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 16 passed");
+    }
+
+    @Test
+    @Order(17)
+    public void testUntagCertificateAuthority() {
+        UntagCertificateAuthorityResponse mockResponse = UntagCertificateAuthorityResponse.builder().build();
+        
+        when(mockClient.untagCertificateAuthority(any(UntagCertificateAuthorityRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> UntagCertificateAuthority.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).untagCertificateAuthority(any(UntagCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> UntagCertificateAuthority.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 17 passed");
+    }
+
     private void setupMockClient(MockedStatic<AcmPcaClient> mockedStatic) {
-        software.amazon.awssdk.services.acmpca.AcmPcaClientBuilder mockBuilder = 
-            mock(software.amazon.awssdk.services.acmpca.AcmPcaClientBuilder.class);
+       AcmPcaClientBuilder mockBuilder = 
+            mock(AcmPcaClientBuilder.class);
         
         when(mockBuilder.region(any(Region.class))).thenReturn(mockBuilder);
         when(mockBuilder.build()).thenReturn(mockClient);
+        
+        when(mockClient.waiter()).thenReturn(mockWaiter);
         
         mockedStatic.when(AcmPcaClient::builder).thenReturn(mockBuilder);
     }
     
     private void resetStreamsAndMocks() {
         reset(mockClient);
+        reset(mockWaiter);
         outputStream.reset();
         errorStream.reset();
     }
