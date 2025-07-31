@@ -2,27 +2,40 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import com.example.acmpca.CreateCertificateAuthority;
+import com.example.acmpca.CreateCertificateAuthorityAuditReport;
 import com.example.acmpca.CreatePermission;
 import com.example.acmpca.DeleteCertificateAuthority;
 import com.example.acmpca.DeletePermission;
 import com.example.acmpca.DeletePolicy;
 import com.example.acmpca.DescribeCertificateAuthority;
+import com.example.acmpca.DescribeCertificateAuthorityAuditReport;
 import com.example.acmpca.GetCertificate;
 import com.example.acmpca.GetCertificateAuthorityCertificate;
 import com.example.acmpca.GetCertificateAuthorityCsr;
 import com.example.acmpca.GetPolicy;
+import com.example.acmpca.ImportCertificateAuthorityCertificate;
 import com.example.acmpca.IssueCertificate;
 import com.example.acmpca.ListCertificateAuthorities;
 import com.example.acmpca.ListPermissions;
 import com.example.acmpca.ListTags;
 import com.example.acmpca.PutPolicy;
+import com.example.acmpca.RestoreCertificateAuthority;
+import com.example.acmpca.RevokeCertificate;
 import com.example.acmpca.TagCertificateAuthorities;
 import com.example.acmpca.UntagCertificateAuthority;
+import com.example.acmpca.UpdateCertificateAuthority;
+import com.example.acmpca.scenarios.CreatePrivateCertificateAuthorityAD;
+import com.example.acmpca.scenarios.RootCAActivation;
+import com.example.acmpca.scenarios.SubordinateCAActivation;
 
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityAuditReportResponse;
+import software.amazon.awssdk.services.acmpca.model.CreateCertificateAuthorityAuditReportRequest;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityAuditReportResponse;
+import software.amazon.awssdk.services.acmpca.model.DescribeCertificateAuthorityAuditReportRequest;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthority;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityStatus;
 import software.amazon.awssdk.services.acmpca.model.CertificateAuthorityType;
@@ -58,6 +71,11 @@ import software.amazon.awssdk.services.acmpca.model.TagCertificateAuthorityRespo
 import software.amazon.awssdk.services.acmpca.model.TagCertificateAuthorityRequest;
 import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityResponse;
 import software.amazon.awssdk.services.acmpca.model.UntagCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.ImportCertificateAuthorityCertificateRequest;
+import software.amazon.awssdk.services.acmpca.model.RestoreCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.RevokeCertificateRequest;
+import software.amazon.awssdk.services.acmpca.model.UpdateCertificateAuthorityRequest;
+import software.amazon.awssdk.services.acmpca.model.AuditReportStatus;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
@@ -641,6 +659,326 @@ public class PCATests {
             verifyNoInteractions(mockClient);
         }
         originalOut.println("Test 17 passed");
+    }
+
+    @Test
+    @Order(18)
+    public void testCreateCertificateAuthorityAuditReport() {
+        CreateCertificateAuthorityAuditReportResponse mockResponse = CreateCertificateAuthorityAuditReportResponse.builder()
+                .auditReportId("test-audit-report-id")
+                .s3Key("audit-reports/test-audit-report.json")
+                .build();
+        
+        when(mockClient.createCertificateAuthorityAuditReport(any(CreateCertificateAuthorityAuditReportRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> CreateCertificateAuthorityAuditReport.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca",
+                "test-bucket"
+            }));
+            verify(mockClient).createCertificateAuthorityAuditReport(any(CreateCertificateAuthorityAuditReportRequest.class));
+            assertTrue(outputStream.toString().contains("test-audit-report-id"), "Should output audit report ID");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> CreateCertificateAuthorityAuditReport.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 18 passed");
+    }
+
+    @Test
+    @Order(19)
+    public void testDescribeCertificateAuthorityAuditReport() {
+        DescribeCertificateAuthorityAuditReportResponse mockResponse = DescribeCertificateAuthorityAuditReportResponse.builder()
+                .auditReportStatus(AuditReportStatus.SUCCESS)
+                .s3BucketName("test-bucket")
+                .s3Key("audit-reports/test-audit-report.json")
+                .build();
+        
+        when(mockClient.describeCertificateAuthorityAuditReport(any(DescribeCertificateAuthorityAuditReportRequest.class)))
+                .thenReturn(mockResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> DescribeCertificateAuthorityAuditReport.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca",
+                "test-audit-report-id"
+            }));
+            verify(mockClient).describeCertificateAuthorityAuditReport(any(DescribeCertificateAuthorityAuditReportRequest.class));
+            assertTrue(outputStream.toString().contains("SUCCESS"), "Should output audit report status");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> DescribeCertificateAuthorityAuditReport.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 19 passed");
+    }
+
+    @Test
+    @Order(20)
+    public void testImportCertificateAuthorityCertificate() {
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class);
+             MockedStatic<Files> mockedFiles = mockStatic(Files.class);
+             MockedStatic<Paths> mockedPaths = mockStatic(Paths.class)) {
+            
+            setupMockClient(mockedStatic);
+            
+            Path mockCertPath = mock(Path.class);
+            Path mockChainPath = mock(Path.class);
+            String mockCertContent = "-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----";
+            String mockChainContent = "-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----";
+            
+            mockedPaths.when(() -> Paths.get("cert.pem")).thenReturn(mockCertPath);
+            mockedPaths.when(() -> Paths.get("certChain.pem")).thenReturn(mockChainPath);
+            mockedFiles.when(() -> Files.readString(mockCertPath, StandardCharsets.UTF_8)).thenReturn(mockCertContent);
+            mockedFiles.when(() -> Files.readString(mockChainPath, StandardCharsets.UTF_8)).thenReturn(mockChainContent);
+            
+            assertDoesNotThrow(() -> ImportCertificateAuthorityCertificate.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).importCertificateAuthorityCertificate(any(ImportCertificateAuthorityCertificateRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> ImportCertificateAuthorityCertificate.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 20 passed");
+    }
+
+    @Test
+    @Order(21)
+    public void testRestoreCertificateAuthority() {
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> RestoreCertificateAuthority.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).restoreCertificateAuthority(any(RestoreCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> RestoreCertificateAuthority.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 21 passed");
+    }
+
+    @Test
+    @Order(22)
+    public void testRevokeCertificate() {
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> RevokeCertificate.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca",
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate/test-cert"
+            }));
+            verify(mockClient).revokeCertificate(any(RevokeCertificateRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> RevokeCertificate.main(new String[]{"us-east-1"}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 22 passed");
+    }
+
+    @Test
+    @Order(23)
+    public void testUpdateCertificateAuthority() {
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> UpdateCertificateAuthority.main(new String[]{
+                "us-east-1", 
+                "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca"
+            }));
+            verify(mockClient).updateCertificateAuthority(any(UpdateCertificateAuthorityRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> UpdateCertificateAuthority.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 23 passed");
+    }
+
+    @Test
+    @Order(24)
+    public void testCreatePrivateCertificateAuthorityAD() {
+        String expectedArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-ca-ad";
+        CreateCertificateAuthorityResponse mockResponse = CreateCertificateAuthorityResponse.builder()
+                .certificateAuthorityArn(expectedArn)
+                .build();
+        
+        GetCertificateAuthorityCsrResponse mockCsrResponse = GetCertificateAuthorityCsrResponse.builder()
+                .csr("-----BEGIN CERTIFICATE REQUEST-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE REQUEST-----")
+                .build();
+        
+        IssueCertificateResponse mockIssueResponse = IssueCertificateResponse.builder()
+                .certificateArn("arn:aws:acm-pca:us-east-1:123456789012:certificate/test-cert")
+                .build();
+        
+        GetCertificateResponse mockGetCertResponse = GetCertificateResponse.builder()
+                .certificate("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----")
+                .build();
+        
+        when(mockClient.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
+                .thenReturn(mockResponse);
+        when(mockClient.getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class)))
+                .thenReturn(mockCsrResponse);
+        when(mockClient.issueCertificate(any(IssueCertificateRequest.class)))
+                .thenReturn(mockIssueResponse);
+        when(mockClient.getCertificate(any(GetCertificateRequest.class)))
+                .thenReturn(mockGetCertResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> CreatePrivateCertificateAuthorityAD.main(new String[]{"us-east-1"}));
+            verify(mockClient).createCertificateAuthority(any(CreateCertificateAuthorityRequest.class));
+            verify(mockClient).getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class));
+            verify(mockClient).issueCertificate(any(IssueCertificateRequest.class));
+            verify(mockClient).getCertificate(any(GetCertificateRequest.class));
+            verify(mockClient).importCertificateAuthorityCertificate(any(ImportCertificateAuthorityCertificateRequest.class));
+            assertTrue(outputStream.toString().contains(expectedArn), "Should output the certificate authority ARN");
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> CreatePrivateCertificateAuthorityAD.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 24 passed");
+    }
+
+    @Test
+    @Order(25)
+    public void testRootCAActivation() {
+        String expectedArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-root-ca";
+        CreateCertificateAuthorityResponse mockCreateResponse = CreateCertificateAuthorityResponse.builder()
+                .certificateAuthorityArn(expectedArn)
+                .build();
+        
+        GetCertificateAuthorityCsrResponse mockCsrResponse = GetCertificateAuthorityCsrResponse.builder()
+                .csr("-----BEGIN CERTIFICATE REQUEST-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE REQUEST-----")
+                .build();
+        
+        IssueCertificateResponse mockIssueResponse = IssueCertificateResponse.builder()
+                .certificateArn("arn:aws:acm-pca:us-east-1:123456789012:certificate/test-cert")
+                .build();
+        
+        GetCertificateResponse mockGetCertResponse = GetCertificateResponse.builder()
+                .certificate("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----")
+                .build();
+        
+        when(mockClient.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
+                .thenReturn(mockCreateResponse);
+        when(mockClient.getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class)))
+                .thenReturn(mockCsrResponse);
+        when(mockClient.issueCertificate(any(IssueCertificateRequest.class)))
+                .thenReturn(mockIssueResponse);
+        when(mockClient.getCertificate(any(GetCertificateRequest.class)))
+                .thenReturn(mockGetCertResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> RootCAActivation.main(new String[]{"us-east-1", "test-bucket"}));
+            verify(mockClient).createCertificateAuthority(any(CreateCertificateAuthorityRequest.class));
+            verify(mockClient).getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class));
+            verify(mockClient).issueCertificate(any(IssueCertificateRequest.class));
+            verify(mockClient).getCertificate(any(GetCertificateRequest.class));
+            verify(mockClient).importCertificateAuthorityCertificate(any(ImportCertificateAuthorityCertificateRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> RootCAActivation.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 25 passed");
+    }
+
+    @Test
+    @Order(26)
+    public void testSubordinateCAActivation() {
+        String rootCaArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-root-ca";
+        String subCaArn = "arn:aws:acm-pca:us-east-1:123456789012:certificate-authority/test-sub-ca";
+        
+        GetCertificateAuthorityCertificateResponse mockRootCertResponse = GetCertificateAuthorityCertificateResponse.builder()
+                .certificate("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----")
+                .build();
+        
+        CreateCertificateAuthorityResponse mockCreateResponse = CreateCertificateAuthorityResponse.builder()
+                .certificateAuthorityArn(subCaArn)
+                .build();
+        
+        GetCertificateAuthorityCsrResponse mockCsrResponse = GetCertificateAuthorityCsrResponse.builder()
+                .csr("-----BEGIN CERTIFICATE REQUEST-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE REQUEST-----")
+                .build();
+        
+        IssueCertificateResponse mockIssueResponse = IssueCertificateResponse.builder()
+                .certificateArn("arn:aws:acm-pca:us-east-1:123456789012:certificate/test-sub-cert")
+                .build();
+        
+        GetCertificateResponse mockGetCertResponse = GetCertificateResponse.builder()
+                .certificate("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----")
+                .certificateChain("-----BEGIN CERTIFICATE-----\nMIIBkTCB+wIJAK...\n-----END CERTIFICATE-----")
+                .build();
+        
+        when(mockClient.getCertificateAuthorityCertificate(any(GetCertificateAuthorityCertificateRequest.class)))
+                .thenReturn(mockRootCertResponse);
+        when(mockClient.createCertificateAuthority(any(CreateCertificateAuthorityRequest.class)))
+                .thenReturn(mockCreateResponse);
+        when(mockClient.getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class)))
+                .thenReturn(mockCsrResponse);
+        when(mockClient.issueCertificate(any(IssueCertificateRequest.class)))
+                .thenReturn(mockIssueResponse);
+        when(mockClient.getCertificate(any(GetCertificateRequest.class)))
+                .thenReturn(mockGetCertResponse);
+
+        try (MockedStatic<AcmPcaClient> mockedStatic = mockStatic(AcmPcaClient.class)) {
+            setupMockClient(mockedStatic);
+            
+            assertDoesNotThrow(() -> SubordinateCAActivation.main(new String[]{
+                "us-east-1", 
+                rootCaArn,
+                "test-bucket"
+            }));
+            verify(mockClient).getCertificateAuthorityCertificate(any(GetCertificateAuthorityCertificateRequest.class));
+            verify(mockClient).createCertificateAuthority(any(CreateCertificateAuthorityRequest.class));
+            verify(mockClient).getCertificateAuthorityCsr(any(GetCertificateAuthorityCsrRequest.class));
+            verify(mockClient).issueCertificate(any(IssueCertificateRequest.class));
+            verify(mockClient).getCertificate(any(GetCertificateRequest.class));
+            verify(mockClient).importCertificateAuthorityCertificate(any(ImportCertificateAuthorityCertificateRequest.class));
+            
+            resetStreamsAndMocks();
+            
+            assertDoesNotThrow(() -> SubordinateCAActivation.main(new String[]{}));
+            assertTrue(outputStream.toString().contains("Usage:"), "Should show usage message");
+            verifyNoInteractions(mockClient);
+        }
+        originalOut.println("Test 26 passed");
     }
 
     private void setupMockClient(MockedStatic<AcmPcaClient> mockedStatic) {

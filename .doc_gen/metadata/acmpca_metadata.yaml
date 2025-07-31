@@ -13,6 +13,20 @@ acm-pca_CreateCertificateAuthority:
   services:
      acm-pca: {CreateCertificateAuthority}
 
+acm-pca_CreateCertificateAuthorityAuditReport:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.CreateCertificateAuthorityAuditReport.main
+  services:
+     acm-pca: {CreateCertificateAuthorityAuditReport}
+
 acm-pca_CreatePermission:
   languages:
     Java:
@@ -26,6 +40,29 @@ acm-pca_CreatePermission:
                 - acmpca.java2.CreatePermission.main
   services:
      acm-pca: {CreatePermission}
+
+acm-pca_CreatePrivateCertificateAuthorityAD:
+  title: Using CreateCertificateAuthority to support Active Directory
+  title_abbrev: Using CreateCertificateAuthority to support Active Directory
+  synopsis: |
+    The following Java sample shows how to use the CreateCertificateAuthority operation to create a CA that can be installed in the Enterprise NTAuth store of Microsoft Active Directory (AD).
+
+    The operation creates a private root certificate authority (CA) using custom object identifiers (OIDs). See <ulink url="https://docs.aws.amazon.com/privateca/latest/userguide/create-CA.html#example_5">Create a CA for Active Directory login</ulink> for more information and an AWS CLI example of an equivalent operation.
+
+    If successful, this function returns the Amazon Resource Name (ARN) of the CA. 
+  category: Scenarios
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.CreatePrivateCertificateAuthorityAD.main
+  services:
+     acm-pca: {CreateCertificateAuthority}
 
 acm-pca_DeleteCertificateAuthority:
   languages:
@@ -83,6 +120,20 @@ acm-pca_DescribeCertificateAuthority:
   services:
      acm-pca: {DescribeCertificateAuthority}
 
+acm-pca_DescribeCertificateAuthorityAuditReport:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.DescribeCertificateAuthorityAuditReport.main
+  services:
+     acm-pca: {DescribeCertificateAuthorityAuditReport}
+
 acm-pca_GetCertificate:
   languages:
     Java:
@@ -138,6 +189,20 @@ acm-pca_GetPolicy:
                 - acmpca.java2.GetPolicy.main
   services:
      acm-pca: {GetPolicy}
+
+acm-pca_ImportCertificateAuthorityCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.ImportCertificateAuthorityCertificate.main
+  services:
+     acm-pca: {ImportCertificateAuthorityCertificate}
 
 acm-pca_IssueCertificate:
   languages:
@@ -209,6 +274,72 @@ acm-pca_PutPolicy:
   services:
      acm-pca: {PutPolicy}
 
+acm-pca_RestoreCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.RestoreCertificateAuthority.main
+  services:
+     acm-pca: {RestoreCertificateAuthority}
+
+acm-pca_RevokeCertificate:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.RevokeCertificate.main
+  services:
+     acm-pca: {RevokeCertificate}
+
+acm-pca_RootCAActivation:
+  title: Create and activate a root CA programmatically
+  title_abbrev: Create and activate a root CA programmatically
+  synopsis: create and activate a root CA using &AWS; Private CA API actions.
+  category: Scenarios
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.RootCAActivation.main
+  services:
+     acm-pca: {CreateCertificateAuthority, GetCertificateAuthorityCsr, 
+      IssueCertificate, GetCertificate, ImportCertificateAuthorityCertificate}
+
+acm-pca_SubordinateCAActivation:
+  title: Create and activate a subordinate CA programmatically
+  title_abbrev: Create and activate a subordinate CA programmatically
+  synopsis: create and activate a subordinate CA using &AWS; Private CA API actions.
+  category: Scenarios
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.SubordinateCAActivation.main
+  services:
+     acm-pca: {GetCertificateAuthorityCertificate, CreateCertificateAuthority, GetCertificateAuthorityCsr, 
+      IssueCertificate, GetCertificate, ImportCertificateAuthorityCertificate}
+
 acm-pca_TagCertificateAuthorities:
   languages:
     Java:
@@ -236,3 +367,17 @@ acm-pca_UntagCertificateAuthority:
                 - acmpca.java2.UntagCertificateAuthority.main
   services:
      acm-pca: {UntagCertificateAuthority}
+
+acm-pca_UpdateCertificateAuthority:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.UpdateCertificateAuthority.main
+  services:
+     acm-pca: {UpdateCertificateAuthority}
