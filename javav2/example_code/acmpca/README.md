@@ -8,7 +8,7 @@ Code samples that show you how to call individual service functions.
 
 * **CreateCertificateAuthority** 
 * **CreateCertificateAuthorityAuditReport** 
-* **CreatePermissions** 
+* **CreatePermission** 
 * **DeleteCertificateAuthority** 
 * **DeletePermission** 
 * **DeletePolicy** 
@@ -20,15 +20,17 @@ Code samples that show you how to call individual service functions.
 * **GetPolicy** 
 * **ImportCertificateAuthorityCertificate** 
 * **IssueCertificate** 
-* **ListCertificateAuthorites** 
+* **ListCertificateAuthorities** 
 * **ListPermissions** 
 * **ListTags** 
 * **PutPolicy** 
 * **RestoreCertificateAuthority** 
-* **TagCertificateAuthority** 
+* **RevokeCertificate** 
+* **TagCertificateAuthorities** 
 * **UntagCertificateAuthority** 
+* **UpdateCertificateAuthority** 
 
-**Sceanrios**
+**Scenarios**
 
 Code samples that demonstrate a specific task.
 

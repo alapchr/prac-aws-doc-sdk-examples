@@ -57,20 +57,9 @@
       <artifactId>aws-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk18on</artifactId>
-      <version>1.78.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk18on</artifactId>
-      <version>1.78.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.34</version>
-      <scope>provided</scope>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.9</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -88,12 +77,6 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
       <version>5.8.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>2.0.9</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
