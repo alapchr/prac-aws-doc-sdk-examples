@@ -62,7 +62,7 @@ public class DescribeCertificateAuthorityAuditReport {
 
     try {
       DescribeCertificateAuthorityAuditReportResponse result = 
-      client.describeCertificateAuthorityAuditReport(req);
+         client.describeCertificateAuthorityAuditReport(req);
 
       String status = result.auditReportStatusAsString();
       String s3Bucket = result.s3BucketName();

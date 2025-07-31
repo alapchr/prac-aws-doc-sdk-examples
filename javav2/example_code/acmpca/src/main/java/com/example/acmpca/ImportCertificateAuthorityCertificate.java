@@ -50,8 +50,8 @@ public class ImportCertificateAuthorityCertificate {
        * Read the signed certificate.
        * This assumes that a file named cert.pem is stored somewhere and contains the signed certificate
        */
-      String cert = Files.readString(Paths.get("cert.pem"), StandardCharsets.UTF_8);
-      SdkBytes certSdkBytes = SdkBytes.fromUtf8String(cert);
+      String signedCert = Files.readString(Paths.get("cert.pem"), StandardCharsets.UTF_8);
+      SdkBytes certSdkBytes = SdkBytes.fromUtf8String(signedCert);
 
       /*
        * Read the certificate chain.
