@@ -76,11 +76,11 @@ functions within the same service.
 <!--custom.instructions.start-->
 To run the code examples, see the usage instructions in the comments of the example file. 
 
-The example requires parameters for the AWS region and an S3 bucket name for CRL revocation to run the CreateCertificateAuthority code sample.
+For Example:
 
-For example:
+This example requires parameters for the AWS region and an S3 bucket name for CRL revocation to run the CreateCertificateAuthority code sample.
 
-mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-crl-bucket"
+**mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-crl-bucket"**
 <!--custom.instructions.end-->
 
 
