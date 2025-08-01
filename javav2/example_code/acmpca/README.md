@@ -7,8 +7,6 @@ Shows how to use the AWS SDK for Java 2.x to work with AWS Private Certificate A
 <!--custom.overview.start-->
 <!--custom.overview.end-->
 
-_AWS Private CA _
-
 ## ⚠ Important
 
 * Running this code might result in charges to your AWS account. For more details, see [AWS Pricing](https://aws.amazon.com/pricing/) and [Free Tier](https://aws.amazon.com/free/).
@@ -76,63 +74,27 @@ functions within the same service.
 
 
 <!--custom.instructions.start-->
+To run the code examples, see the usage instructions in the comments of the example file. 
+
+The example requires parameters for the AWS region and an S3 bucket name for CRL revocation to run the CreateCertificateAuthority code sample.
+
+For example:
+
+mvn exec:java -Dexec.mainClass="com.example.acmpca.CreateCertificateAuthority" -Dexec.args="us-east-1 my-crl-bucket"
 <!--custom.instructions.end-->
 
-
-
-#### Create and activate a root CA programmatically
-
-This example shows you how to create and activate a root CA using AWS Private CA API actions.
-
-
-<!--custom.scenario_prereqs.acm-pca_RootCAActivation.start-->
-<!--custom.scenario_prereqs.acm-pca_RootCAActivation.end-->
-
-
-<!--custom.scenarios.acm-pca_RootCAActivation.start-->
-<!--custom.scenarios.acm-pca_RootCAActivation.end-->
-
-#### Create and activate a subordinate CA programmatically
-
-This example shows you how to create and activate a subordinate CA using AWS Private CA API actions.
-
-
-<!--custom.scenario_prereqs.acm-pca_SubordinateCAActivation.start-->
-<!--custom.scenario_prereqs.acm-pca_SubordinateCAActivation.end-->
-
-
-<!--custom.scenarios.acm-pca_SubordinateCAActivation.start-->
-<!--custom.scenarios.acm-pca_SubordinateCAActivation.end-->
-
-#### Using CreateCertificateAuthority to support Active Directory
-
-This example shows you how to use the CreateCertificateAuthority operation to create a CA that can be installed in the Enterprise NTAuth store of Microsoft Active Directory (AD).
-
-The operation creates a private root certificate authority (CA) using custom object identifiers (OIDs). See <ulink url="https://docs.aws.amazon.com/privateca/latest/userguide/create-CA.html#example_5">Create a CA for Active Directory login</ulink> for more information and an AWS CLI example of an equivalent operation.
-
-If successful, this function returns the Amazon Resource Name (ARN) of the CA. 
-
-
-
-<!--custom.scenario_prereqs.acm-pca_CreatePrivateCertificateAuthorityAD.start-->
-<!--custom.scenario_prereqs.acm-pca_CreatePrivateCertificateAuthorityAD.end-->
-
-
-<!--custom.scenarios.acm-pca_CreatePrivateCertificateAuthorityAD.start-->
-<!--custom.scenarios.acm-pca_CreatePrivateCertificateAuthorityAD.end-->
 
 ### Tests
 
 ⚠ Running tests might result in charges to your AWS account.
 
+<!--custom.tests.start-->
+You can test the Java code examples for AWS Private Certificate Authority by running the test file named **PCATests**.
+<!--custom.tests.end-->
 
 To find instructions for running these tests, see the [README](../../README.md#Tests)
 in the `javav2` folder.
 
-
-
-<!--custom.tests.start-->
-<!--custom.tests.end-->
 
 ## Additional resources
 
