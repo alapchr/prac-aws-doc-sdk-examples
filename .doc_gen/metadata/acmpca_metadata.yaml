@@ -381,3 +381,18 @@ acm-pca_UpdateCertificateAuthority:
                 - acmpca.java2.UpdateCertificateAuthority.main
   services:
      acm-pca: {UpdateCertificateAuthority}
+
+acm-pca_HelloWorld:
+  languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/acmpca
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - acmpca.java2.HelloWorld.main
+  services:
+     acm-pca: {}
+
