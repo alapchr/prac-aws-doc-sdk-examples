@@ -393,5 +393,6 @@ acm-pca_HelloWorld:
             - description:
               snippet_tags:
                 - acmpca.java2.HelloWorld.main
-  services: {}
+  services:
+     acm-pca: {HelloWorld}
 
